@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { signOut } from "../../slice/userAuthSlice";
 
-const Logout = () => (
-  <h1>Logout page</h1>
-);
+const Logout = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  useEffect(() => {
+    dispatch(signOut());
+    history.replace("/");
+  }, [history, dispatch]);
+
+  return <div />;
+};
 
 export default Logout;

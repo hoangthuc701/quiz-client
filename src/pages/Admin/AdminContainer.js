@@ -1,7 +1,8 @@
 import React from "react";
-import { Redirect, Switch, Route, Link } from "react-router-dom";
+import { Redirect, Switch, Link } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import { UserOutlined, VideoCameraOutlined } from "@ant-design/icons";
+import AdminRoute from "./components/AdminRoute";
 import routes from "./routes";
 
 const AdminContainer = () => {
@@ -50,7 +51,7 @@ const AdminContainer = () => {
             >
               <Switch>
                 {routes.map((r) => (
-                  <Route
+                  <AdminRoute
                     key={r.path}
                     path={r.path}
                     component={r.main}
