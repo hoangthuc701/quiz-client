@@ -18,7 +18,7 @@ export const signIn = async ({ username, password }) => {
           email: "louis.phhh@gmail.com",
           fullname: "Louis Phan",
           phone: "0123456789",
-          role: 1,
+          role: 0,
         },
       },
     });
