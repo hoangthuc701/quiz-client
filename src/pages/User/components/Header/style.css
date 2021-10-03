@@ -2,6 +2,9 @@
    background-color: #222;
    border-color: #080808;
    width: 100%;
+   position: sticky;
+   z-index: 1;
+   top: 0;
 }
 
 .container-fluid {
@@ -33,14 +36,14 @@ ul {
    list-style: none;
 }
 
-ul li a {
+.navbar ul li a {
    padding: 13px 15px;
    display: block;
    color: #fff;
    transition: all 0.25s linear;
 }
 
-ul li a:hover {
+.navbar ul li a:hover {
    background-color: #080808;
 }
 
