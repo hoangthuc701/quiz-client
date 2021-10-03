@@ -1,0 +1,82 @@
+.exam-paper {
+   padding: 20px;
+   height: 100%;
+}
+
+.exam-paper-content {
+   position: relative;
+   min-height: 100%;
+   padding: 24px;
+   background: #fff;
+}
+
+.exam-paper .ant-divider-horizontal {
+   margin: 15px 0;
+}
+
+.exam-paper .ant-card-body {
+   padding: 0;
+}
+
+.card .ant-divider-horizontal {
+   margin: 0;
+}
+
+.card__header {
+   padding: 15px 15px 5px;
+}
+
+.card__name {
+   margin-bottom: 20px;
+   font-size: 16px;
+   transition: all 0.25s linear;
+}
+
+.card__time {
+   color: #52c41a;
+}
+
+.card__question {
+   color: #faad14;
+}
+
+.card__view {
+   font-size: 13px;
+   margin-bottom: 5px;
+   transition: all 0.25s linear;
+}
+
+.card__footer {
+   display: flex;
+   padding: 10px 15px;
+   font-size: 13px;
+}
+
+.card__footer p {
+   margin: 0px 10px 0px 0px;
+}
+
+.exam-list {
+   display: flex;
+   flex-wrap: wrap;
+   padding: 0 0 35px;
+}
+
+.exam-item {
+   cursor: pointer;
+   margin: 0px 20px 20px 0px;
+   width: calc(33.33% - 20px);
+   box-shadow: 0px 0px 5px 0px rgb(0 0 0 / 10%);
+}
+
+.exam-item:hover .card__view {
+   color: #1890ff;
+}
+
+.exam-paper .pagination {
+   text-align: center;
+   position: absolute;
+   bottom: 30px;
+   left: 50%;
+   transform: translateX(-50%);
+}
