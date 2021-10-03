@@ -9,35 +9,35 @@ import PrivateRoute from "./components/PrivateRoute";
 const { Content } = Layout;
 
 const UserContainer = () => (
-  <Layout style={{ alignItems: "center" }}>
-    <Header />
-    <Content style={{ alignItems: "center" }}>
-      <Switch>
-        {routes.map((r) => {
-          if (r.requireLogin) {
-            return (
-              <PrivateRoute
-                key={r.path}
-                path={r.path}
-                component={r.main}
-                exact={r.exact}
-              />
-            );
-          }
-          return (
-            <Route
-              key={r.path}
-              path={r.path}
-              component={r.main}
-              exact={r.exact}
-            />
-          );
-        })}
-        <Redirect to="/404" />
-      </Switch>
-    </Content>
-    <Footer />
-  </Layout>
+   <Layout style={{ minHeight: "100vh" }}>
+      <Header />
+      <Content style={{ display: "flex", flexDirection: "column" }}>
+         <Switch>
+            {routes.map((r) => {
+               if (r.requireLogin) {
+                  return (
+                     <PrivateRoute
+                        key={r.path}
+                        path={r.path}
+                        component={r.main}
+                        exact={r.exact}
+                     />
+                  );
+               }
+               return (
+                  <Route
+                     key={r.path}
+                     path={r.path}
+                     component={r.main}
+                     exact={r.exact}
+                  />
+               );
+            })}
+            <Redirect to="/404" />
+         </Switch>
+      </Content>
+      <Footer />
+   </Layout>
 );
 
 export default UserContainer;
