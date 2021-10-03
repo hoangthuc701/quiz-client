@@ -3,21 +3,16 @@ import { Redirect, Switch, Link } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import { UserOutlined, VideoCameraOutlined } from "@ant-design/icons";
 import AdminRoute from "./components/AdminRoute";
+import Header from "./components/Header";
 import routes from "./routes";
 
 const AdminContainer = () => {
-  const { Header, Content, Footer, Sider } = Layout;
+  const { Content, Footer, Sider } = Layout;
   const { SubMenu } = Menu;
 
   return (
     <>
-      <Header
-        className="site-layout-background"
-        style={{ padding: 0, position: "fixed", zIndex: 1, width: "100%" }}
-      >
-        {" "}
-        Header
-      </Header>
+      <Header />
       <Layout>
         <Sider
           style={{
@@ -25,7 +20,7 @@ const AdminContainer = () => {
             height: "100vh",
             position: "fixed",
             left: 0,
-            top: "64px",
+            top: "58px",
           }}
         >
           <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
