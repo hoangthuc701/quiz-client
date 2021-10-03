@@ -28,7 +28,7 @@ const AdminContainer = () => {
               <Link to="/admin/overview"> Tổng quan </Link>
             </Menu.Item>
             <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-              Sample
+              <Link to="/admin/category"> Danh mục </Link>
             </Menu.Item>
             <SubMenu key="sub9" icon={<UserOutlined />} title="subnav 9">
               <Menu.Item key="9-1">option1</Menu.Item>

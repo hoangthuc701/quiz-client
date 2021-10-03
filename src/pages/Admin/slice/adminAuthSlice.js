@@ -54,9 +54,7 @@ export const getSessionStorage = () => {
   try {
     const adminAuth = JSON.parse(sessionStorage.getItem("adminAuth"));
     return adminAuth;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const fetchSessionStorage = () => (dispatch) => {

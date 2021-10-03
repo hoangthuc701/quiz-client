@@ -1,6 +1,7 @@
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import Home from './pages/Home';
+import Category from "./pages/Category";
 
 const routes = [
   {
@@ -18,6 +19,12 @@ const routes = [
     exact: true,
     main: () => <Login />,
   },
+  {
+    path: "/admin/category",
+    exact: true,
+    main: () => <Category />,
+  },
+
 ];
 
 export default routes;
