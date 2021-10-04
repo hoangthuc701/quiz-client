@@ -43,7 +43,7 @@ const SiderComponent = () => {
 
   const getDefaultSelectedKey = () => {
     const path = window.location.pathname;
-    const key = siders.find((sider) => path.includes(sider.path) >= 0).key;
+    const key = siders.find((sider) => path.includes(sider.path)).key;
 
     return key;
   };

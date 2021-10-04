@@ -7,7 +7,8 @@ export const getAllQuizzes = async () => {
 };
 
 export const deleteQuizzes = async (data) => {
-    const path = "/exercises/search";
+    const path = `/exercises/${data.id}`;
+    delete data.id;
     const result = await apiCaller('PUT', path, JSON.stringify(data));
     return result;
   };
