@@ -1,5 +1,9 @@
 import { Layout, Menu } from "antd";
-import { UserOutlined, VideoCameraOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  VideoCameraOutlined,
+  TagsOutlined,
+} from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
 const SiderComponent = () => {
@@ -17,10 +21,14 @@ const SiderComponent = () => {
     },
     {
       key: "3",
-      path: "/admin/quizzes",
+      path: "/admin/tag",
     },
     {
       key: "4",
+      path: "/admin/quizzes",
+    },
+    {
+      key: "3",
       path: "#",
     },
     {
@@ -28,7 +36,7 @@ const SiderComponent = () => {
       path: "#",
     },
     {
-      key: "4-2",
+      key: "3-2",
       path: "#",
     },
   ];
@@ -61,7 +69,10 @@ const SiderComponent = () => {
         <Menu.Item key="2" icon={<VideoCameraOutlined />}>
           <Link to="/admin/category"> Danh mục </Link>
         </Menu.Item>
-        <Menu.Item key="3" icon={<VideoCameraOutlined />}>
+        <Menu.Item key="3" icon={<TagsOutlined />}>
+          <Link to="/admin/tag"> Tag </Link>
+        </Menu.Item>
+        <Menu.Item key="4" icon={<VideoCameraOutlined />}>
           <Link to="/admin/quizzes"> Đề thi </Link>
         </Menu.Item>
         <SubMenu key="sub9" icon={<UserOutlined />} title="subnav 9">

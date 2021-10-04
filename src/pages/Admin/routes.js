@@ -1,10 +1,11 @@
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
-import Home from './pages/Home';
+import Home from "./pages/Home";
 import Category from "./pages/Category";
 import Quizz from "./pages/Quizz";
 import ViewQuizz from "./pages/Quizz/view";
 import EditQuizz from "./pages/Quizz/edit";
+import Tag from "./pages/Tag";
 
 const routes = [
   {
@@ -41,6 +42,11 @@ const routes = [
     path: "/admin/quizzes/:id/edit",
     exact: true,
     main: () => <EditQuizz />,
+  },
+  {
+    path: "/admin/tag",
+    exact: true,
+    main: () => <Tag />,
   },
 ];
 
