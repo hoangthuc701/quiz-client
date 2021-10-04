@@ -10,8 +10,8 @@ const Login = () => {
    let history = useHistory();
    const onFinish = (values) => {
       const loginData = {
-         username: "",
-         password: "",
+         email: values.email,
+         password: values.password,
       };
       dispatch(
          signIn(
@@ -38,12 +38,12 @@ const Login = () => {
             >
                <Form.Item
                   className="form-item"
-                  label="Tên đăng nhập"
-                  name="username"
+                  label="Email"
+                  name="email"
                   rules={[
                      {
                         required: true,
-                        message: "Vui lòng nhập tên đăng nhập!",
+                        message: "Vui lòng nhập email!",
                      },
                   ]}
                >
