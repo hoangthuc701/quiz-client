@@ -1,52 +1,30 @@
 import apiCaller from "../../../api-config/apiCaller";
 
-export const signIn = async ({ username, password }) => {
-  const path = "/api/user/auth/login";
+export const signIn = async ({ email, password }) => {
+  const path = "/users/login";
   const data = {
-    username,
+    email,
     password,
   };
-  //   const result = await apiCaller("POST", path, JSON.stringify(data), null);
-  const result = new Promise((resolve) => {
-    resolve({
-      code: 1000,
-      data: {
-        message: "Đăng nhập thành công.",
-        accessToken: "askdjasljdk",
-        user: {
-          id: 1,
-          email: "louis.phhh@gmail.com",
-          fullname: "Louis Phan",
-          phone: "0123456789",
-          role: 0,
-        },
-      },
-    });
-  });
+  const result = await apiCaller("POST", path, JSON.stringify(data));
   return result;
 };
 
-export const signUp = async ({ username, password, fullname }) => {
-  const path = "/api/user/auth/register";
+export const signUp = async ({
+  email,
+  phone,
+  password,
+  fullname,
+  confirmPassword,
+}) => {
+  const path = "/users/register";
   const data = {
-    username,
+    email,
     password,
     fullname,
+    phone,
+    confirmPassword,
   };
-  //   const result = await apiCaller("POST", path, JSON.stringify(data), null);
-  const result = new Promise((resolve) => {
-    resolve({
-      code: 1000,
-      data: {
-        message: "Đăng kí thành công.",
-        user: {
-          id: 1,
-          email: "louis.phhh@gmail.com",
-          fullname: "Louis Phan",
-          phone: "0123456789",
-        },
-      },
-    });
-  });
+  const result = await apiCaller("POST", path, JSON.stringify(data));
   return result;
 };

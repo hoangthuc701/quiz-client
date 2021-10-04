@@ -65,13 +65,15 @@ export const signIn =
     }
   };
 
-export const signUp = (signUpData) => async (dispatch, getState) => {
+export const signUp = (signUpData, resolve, reject) => async (dispatch, getState) => {
   try {
     const res = await signUpApi(signUpData);
     if (res.code === SUCCESS_CODE) {
       toast.success(res.data.message);
+      resolve();
     } else {
-      toast.error(res.data.message);
+      toast.error(res.message);
+      reject();
     }
   } catch (error) {
     toast.error(error.message);

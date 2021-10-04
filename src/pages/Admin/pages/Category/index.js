@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Table, Space, Button, Popconfirm, Modal, Form, Input } from "antd";
 import {
   getAllCategory,
@@ -26,10 +25,16 @@ const Category = () => {
     setConfirmLoading(true);
     const categoryAction = modalData.isEdit ? updateCategory : addCategory;
     dispatch(
-      categoryAction(data, () => {
-        setModalData({ visible: false, isEdit: false });
-        setConfirmLoading(false);
-      })
+      categoryAction(
+        data,
+        () => {
+          setModalData({ visible: false, isEdit: false });
+          setConfirmLoading(false);
+        },
+        () => {
+          setConfirmLoading(false);
+        }
+      )
     );
   };
 
@@ -57,7 +62,7 @@ const Category = () => {
     setModalData({
       title: "Thêm mới danh mục",
       body: {
-        name: "",
+        title: "",
         description: "",
       },
       visible: true,
@@ -70,14 +75,15 @@ const Category = () => {
   }, [modalData.body]);
 
   const handleDelete = (record) => {
-    const data = record;
-    dispatch(deleteCategory(data));
+    let data = { ...record };
+    data.active = false;
+    dispatch(deleteCategory(data, ()=>{}, ()=>{}));
   };
   const columns = [
     {
       title: "Tên danh mục",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "title",
+      key: "title",
       render: (text) => <p>{text}</p>,
     },
     {
@@ -85,14 +91,6 @@ const Category = () => {
       dataIndex: "description",
       key: "description",
       render: (text) => <p>{text}</p>,
-    },
-    {
-      title: "Người tạo",
-      dataIndex: "creator",
-      key: "creator",
-      render: (user) => (
-        <Link to={`/user/profile/${user.id}`}>{user.fullname}</Link>
-      ),
     },
     {
       title: "Hành động",
@@ -143,15 +141,15 @@ const Category = () => {
         >
           <Form.Item
             label="Tên danh mục"
-            name="name"
-            rules={[{ required: true, message: "Please input your username!" }]}
+            name="title"
+            rules={[{ required: true, message: "Vui lòng nhập tiêu đề!" }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             label="Mô tả"
             name="description"
-            rules={[{ required: true, message: "Please input your username!" }]}
+            rules={[{ required: true, message: "Vui lòng nhập mô tả!" }]}
           >
             <Input />
           </Form.Item>

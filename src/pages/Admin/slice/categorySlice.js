@@ -5,6 +5,7 @@ import {
   updateCategory as updateCategoryApi,
   addCategory as addCategoryApi,
 } from "../api/category";
+import { toast } from "react-toastify";
 import { SUCCESS_CODE } from "../../../constants";
 
 const initialState = {
@@ -32,33 +33,55 @@ export const getAllCategory = () => async (dispatch, getState) => {
   } catch (error) {}
 };
 
-export const updateCategory = (data, resolve) => async (dispatch, getState) => {
+export const updateCategory = (data, resolve, reject) => async (dispatch, getState) => {
   try {
     const res = await updateCategoryApi(data);
     if (res.code === SUCCESS_CODE) {
       resolve();
       dispatch(getAllCategory());
+      toast.success(res.data.message);
+    } else {
+      toast.error(res.message);
+      reject();
     }
-  } catch (error) {}
+  } catch (error) {
+    toast.error(error.message);
+    reject();
+  }
 };
 
-export const deleteCategory = (data) => async (dispatch, getState) => {
+export const deleteCategory = (data, resolve, reject) => async (dispatch, getState) => {
   try {
     const res = await deleteCategoryApi(data);
     if (res.code === SUCCESS_CODE) {
+      resolve();
+      toast.success("Xóa dữ liệu thành công");
       dispatch(getAllCategory());
+    } else 
+    {
+      reject();
     }
-  } catch (error) {}
+  } catch (error) {
+    reject();
+    toast.error(error.message);
+  }
 };
 
-export const addCategory = (data, resolve) => async (dispatch, getState) => {
+export const addCategory = (data, resolve, reject) => async (dispatch, getState) => {
   try {
     const res = await addCategoryApi(data);
     if (res.code === SUCCESS_CODE) {
       resolve();
+      toast.success(res.data.message);
       dispatch(getAllCategory());
+    } else 
+    {
+      reject();
     }
-  } catch (error) {}
+  } catch (error) {
+    reject();
+    toast.error(error.message);
+  }
 };
 
 export default categorySlice.reducer;
