@@ -6,6 +6,7 @@ import Quizz from "./pages/Quizz";
 import ViewQuizz from "./pages/Quizz/view";
 import EditQuizz from "./pages/Quizz/edit";
 import Tag from "./pages/Tag";
+import NewQuizz from "./pages/Quizz/new";
 
 const routes = [
   {
@@ -32,6 +33,11 @@ const routes = [
     path: "/admin/quizzes",
     exact: true,
     main: () => <Quizz />,
+  },
+  {
+    path: "/admin/quizzes/new",
+    exact: true,
+    main: () => <NewQuizz />,
   },
   {
     path: "/admin/quizzes/:id/view",

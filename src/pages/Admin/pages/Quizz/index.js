@@ -84,8 +84,10 @@ const Quizzes = () => {
     <>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <h1> Quản lý đề thi </h1>
-        <Link style={{ margin: "5px" }} to="/quizzes/new">
-          Thêm đề thi
+        <Link to="/admin/quizzes/new">
+          <Button type="primary" style={{ margin: "5px" }}>
+            Thêm đề thi
+          </Button>
         </Link>
       </div>
 
