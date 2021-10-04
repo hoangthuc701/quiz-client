@@ -1,7 +1,7 @@
 import axios from "axios";
 
 axios.interceptors.request.use((req) => {
-  const userAuth = JSON.parse(sessionStorage.getItem("userAuth"));
+  const userAuth = JSON.parse(sessionStorage.getItem("userAuth") || "{}");
 
   const token = userAuth.accessToken;
 

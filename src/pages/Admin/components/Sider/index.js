@@ -1,5 +1,9 @@
 import { Layout, Menu } from "antd";
-import { UserOutlined, VideoCameraOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  VideoCameraOutlined,
+  TagsOutlined,
+} from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
 const SiderComponent = () => {
@@ -17,6 +21,10 @@ const SiderComponent = () => {
     },
     {
       key: "3",
+      path: "/admin/tag",
+    },
+    {
+      key: "3",
       path: "#",
     },
     {
@@ -24,15 +32,14 @@ const SiderComponent = () => {
       path: "#",
     },
     {
-        key: "3-2",
-        path: "#",
-      },
+      key: "3-2",
+      path: "#",
+    },
   ];
 
   const getDefaultSelectedKey = () => {
-
     const path = window.location.pathname;
-    const key = siders.find(sider => sider.path === path).key;
+    const key = siders.find((sider) => sider.path === path).key;
 
     return key;
   };
@@ -47,12 +54,19 @@ const SiderComponent = () => {
         top: "48px",
       }}
     >
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={()=> getDefaultSelectedKey()} >
+      <Menu
+        theme="dark"
+        mode="inline"
+        defaultSelectedKeys={() => getDefaultSelectedKey()}
+      >
         <Menu.Item key="1" icon={<UserOutlined />}>
           <Link to="/admin/overview"> Tổng quan </Link>
         </Menu.Item>
         <Menu.Item key="2" icon={<VideoCameraOutlined />}>
           <Link to="/admin/category"> Danh mục </Link>
+        </Menu.Item>
+        <Menu.Item key="3" icon={<TagsOutlined />}>
+          <Link to="/admin/tag"> Tag </Link>
         </Menu.Item>
         <SubMenu key="sub9" icon={<UserOutlined />} title="subnav 9">
           <Menu.Item key="9-1">option1</Menu.Item>
