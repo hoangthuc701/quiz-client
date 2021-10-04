@@ -2,6 +2,9 @@ import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import Home from './pages/Home';
 import Category from "./pages/Category";
+import Quizz from "./pages/Quizz";
+import ViewQuizz from "./pages/Quizz/view";
+import EditQuizz from "./pages/Quizz/edit";
 
 const routes = [
   {
@@ -24,7 +27,21 @@ const routes = [
     exact: true,
     main: () => <Category />,
   },
-
+  {
+    path: "/admin/quizzes",
+    exact: true,
+    main: () => <Quizz />,
+  },
+  {
+    path: "/admin/quizzes/:id/view",
+    exact: true,
+    main: () => <ViewQuizz />,
+  },
+  {
+    path: "/admin/quizzes/:id/edit",
+    exact: true,
+    main: () => <EditQuizz />,
+  },
 ];
 
 export default routes;

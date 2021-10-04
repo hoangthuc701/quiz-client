@@ -17,22 +17,25 @@ const SiderComponent = () => {
     },
     {
       key: "3",
+      path: "/admin/quizzes",
+    },
+    {
+      key: "4",
       path: "#",
     },
     {
-      key: "3-1",
+      key: "4-1",
       path: "#",
     },
     {
-        key: "3-2",
-        path: "#",
-      },
+      key: "4-2",
+      path: "#",
+    },
   ];
 
   const getDefaultSelectedKey = () => {
-
     const path = window.location.pathname;
-    const key = siders.find(sider => sider.path === path).key;
+    const key = siders.find((sider) => path.includes(sider.path) >= 0).key;
 
     return key;
   };
@@ -47,12 +50,19 @@ const SiderComponent = () => {
         top: "48px",
       }}
     >
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={()=> getDefaultSelectedKey()} >
+      <Menu
+        theme="dark"
+        mode="inline"
+        defaultSelectedKeys={() => getDefaultSelectedKey()}
+      >
         <Menu.Item key="1" icon={<UserOutlined />}>
           <Link to="/admin/overview"> Tổng quan </Link>
         </Menu.Item>
         <Menu.Item key="2" icon={<VideoCameraOutlined />}>
           <Link to="/admin/category"> Danh mục </Link>
+        </Menu.Item>
+        <Menu.Item key="3" icon={<VideoCameraOutlined />}>
+          <Link to="/admin/quizzes"> Đề thi </Link>
         </Menu.Item>
         <SubMenu key="sub9" icon={<UserOutlined />} title="subnav 9">
           <Menu.Item key="9-1">option1</Menu.Item>
