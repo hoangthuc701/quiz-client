@@ -24,11 +24,15 @@ const SiderComponent = () => {
       path: "/admin/tag",
     },
     {
+      key: "4",
+      path: "/admin/quizzes",
+    },
+    {
       key: "3",
       path: "#",
     },
     {
-      key: "3-1",
+      key: "4-1",
       path: "#",
     },
     {
@@ -39,7 +43,7 @@ const SiderComponent = () => {
 
   const getDefaultSelectedKey = () => {
     const path = window.location.pathname;
-    const key = siders.find((sider) => sider.path === path).key;
+    const key = siders.find((sider) => path.includes(sider.path)).key;
 
     return key;
   };
@@ -67,6 +71,9 @@ const SiderComponent = () => {
         </Menu.Item>
         <Menu.Item key="3" icon={<TagsOutlined />}>
           <Link to="/admin/tag"> Tag </Link>
+        </Menu.Item>
+        <Menu.Item key="4" icon={<VideoCameraOutlined />}>
+          <Link to="/admin/quizzes"> Đề thi </Link>
         </Menu.Item>
         <SubMenu key="sub9" icon={<UserOutlined />} title="subnav 9">
           <Menu.Item key="9-1">option1</Menu.Item>
