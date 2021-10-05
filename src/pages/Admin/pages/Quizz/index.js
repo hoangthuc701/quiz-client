@@ -12,8 +12,7 @@ const Quizzes = () => {
   }, []);
 
   const handleDelete = (record) => {
-    let data = { ...record };
-    data.active = false;
+    let data = { id: record.id, active: false };
     dispatch(
       deleteQuizzes(
         data,

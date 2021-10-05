@@ -8,12 +8,7 @@ export const getAllQuizzes = async () => {
 
 export const deleteQuizzes = async (data) => {
   const path = `/exercises/${data.id}`;
-  data.categoryId = data.category.id;
-  data.tagIdList = data.tags.map(tag=> tag.id);
   delete data.id;
-  delete data.category;
-  delete data.createdUser;
-  delete data.tags;
   const result = await apiCaller("PUT", path, JSON.stringify(data));
   return result;
 };
