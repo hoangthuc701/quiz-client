@@ -5,12 +5,60 @@ ul {
 
 .exam {
    padding: 24px;
+   display: flex;
+}
+
+.exam__left {
+   width: 75%;
+   margin-right: 10px;
+}
+
+.exam__right {
+   width: 25%;
+   margin-left: 10px;
+}
+
+.exam__right-box {
+   position: sticky;
+   top: 70px;
+}
+
+.exam__note {
+   font-size: 13px;
+   color: #777;
+}
+
+.exam__note strong {
+   font-style: italic;
+   font-size: 13px;
+   color: #777;
+}
+
+.exam__user {
+   display: flex;
+   font-size: 16px;
+}
+
+.exam__user p {
+   display: flex;
+   margin-bottom: 0;
+}
+
+.exam__user strong {
+   margin-left: 10px;
+}
+
+.exam__time-value {
+   font-size: 40px;
+   color: #777;
+   text-align: center;
+   margin-bottom: 0;
 }
 
 .exam-container {
    background-color: #fff;
    border-radius: 3px;
-   padding: 40px;
+   padding: 20px;
 }
 
 .exam__name {
@@ -31,6 +79,10 @@ ul {
    margin-right: 10px;
 }
 
+.exam__core {
+   font-size: 16px;
+}
+
 .info__time {
    color: #52c41a;
 }
@@ -43,6 +95,10 @@ ul {
    color: #1890ff;
    display: flex;
    align-items: center;
+}
+
+.info__tag ul {
+   margin-bottom: 0;
 }
 
 .question-item {
@@ -67,9 +123,12 @@ ul {
 }
 
 .answer-item {
+   margin-bottom: 10px;
+}
+
+.answer-item span {
    font-size: 13px;
    color: #777;
-   margin-bottom: 10px;
 }
 
 .comment-list {
