@@ -12,8 +12,9 @@ import {
 } from "antd";
 import { SmileOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { tagActions } from "../../slice";
+import { quizActions, tagActions } from "../../slice";
 import { getAllCategory } from "../../slice/categorySlice";
+import { useHistory } from "react-router-dom";
 
 const { TextArea } = Input;
 const { TreeNode } = TreeSelect;
@@ -25,7 +26,15 @@ const layout = {
 const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
-
+const validateMessages = {
+  required: "${label} không thể để trống",
+  types: {
+    number: "${label} phải là số!",
+  },
+  number: {
+    range: "${label} có giá trị từ ${min} đến ${max}",
+  },
+};
 // reset form fields when modal is form, closed
 const useResetFormOnCloseModal = ({ form, visible }) => {
   const prevVisibleRef = useRef();
@@ -60,7 +69,12 @@ const AddQuestionModal = ({ visible, onCancel }) => {
       onOk={onOk}
       onCancel={onCancel}
     >
-      <Form form={form} layout="vertical" name="questionForm">
+      <Form
+        form={form}
+        layout="vertical"
+        name="questionForm"
+        validateMessages={validateMessages}
+      >
         <Form.Item name="content" label="Câu hỏi" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
@@ -78,18 +92,26 @@ const AddQuestionModal = ({ visible, onCancel }) => {
         <Form.Item
           name="correctAnswer"
           label="Đáp án đúng"
-          rules={[{ required: true }]}
+          rules={[
+            {
+              required: true,
+              type: "number",
+              min: 1,
+              max: 4,
+            },
+          ]}
         >
-          <Input />
+          <InputNumber style={{ width: "100%" }} />
         </Form.Item>
       </Form>
     </Modal>
   );
 };
 const NewQuizz = () => {
+  const history = useHistory();
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-  console.log(form.getFieldInstance());
   const [visible, setVisible] = useState(false);
   const categories = useSelector((state) => state.category.categories);
   const tags = useSelector((state) => state.tag.tags);
@@ -102,7 +124,34 @@ const NewQuizz = () => {
   };
 
   const onFinish = (values) => {
-    console.log("Finish:", values);
+    const {
+      categoryId,
+      tagIdList,
+      questionList,
+      title,
+      description,
+      duration,
+    } = values || {};
+    setIsLoading(true);
+    dispatch(
+      quizActions.createQuiz(
+        {
+          categoryId,
+          tagIdList,
+          questionList,
+          title,
+          description,
+          duration,
+        },
+        () => {
+          setIsLoading(false);
+          history.push("/admin/quizzes");
+        },
+        () => {
+          setIsLoading(false);
+        }
+      )
+    );
   };
   useEffect(() => {
     dispatch(getAllCategory());
@@ -125,18 +174,27 @@ const NewQuizz = () => {
       </div>
       <Form.Provider
         onFormFinish={(name, { values, forms }) => {
-          console.log(values, forms);
+          const { mainForm } = forms;
+
           if (name === "questionForm") {
-            const { mainForm } = forms;
             const questionList = mainForm.getFieldValue("questionList") || [];
             mainForm.setFieldsValue({
               questionList: [...questionList, values],
             });
             setVisible(false);
           }
+          if (name === "mainForm") {
+            values.questionList = mainForm.getFieldValue("questionList");
+          }
         }}
       >
-        <Form {...layout} name="mainForm" onFinish={onFinish}>
+        <Form
+          {...layout}
+          name="mainForm"
+          onFinish={onFinish}
+          initialValues={{ tagIdList: [] }}
+          validateMessages={validateMessages}
+        >
           <Form.Item
             name="title"
             label="Tên đề thi"
@@ -163,53 +221,37 @@ const NewQuizz = () => {
             shouldUpdate={(prevValues, curValues) =>
               prevValues.tagIdList !== curValues.tagIdList
             }
+            name="tagIdList"
             rules={[{ required: true }]}
           >
-            {({ getFieldValue, setFieldsValue }) => {
-              const tagIdList = getFieldValue("tagIdList");
-              const onChange = (value) => setFieldsValue({ tagIdList: value });
-              return (
-                <Select
-                  mode="multiple"
-                  allowClear
-                  style={{ width: "100%" }}
-                  placeholder="Chọn nhãn"
-                  onChange={onChange}
-                  value={tagIdList}
-                >
-                  {tags?.map((tag) => {
-                    return (
-                      <Select.Option key={tag.id}>{tag.title}</Select.Option>
-                    );
-                  })}
-                </Select>
-              );
-            }}
+            <Select
+              mode="multiple"
+              allowClear
+              style={{ width: "100%" }}
+              placeholder="Chọn nhãn"
+            >
+              {tags?.map((tag) => {
+                return <Select.Option key={tag.id}>{tag.title}</Select.Option>;
+              })}
+            </Select>
           </Form.Item>
           <Form.Item
             label="Danh mục"
+            name="categoryId"
             shouldUpdate={(prevValues, curValues) =>
               prevValues.categoryId !== curValues.categoryId
             }
             rules={[{ required: true }]}
           >
-            {({ getFieldValue, setFieldsValue }) => {
-              const categoryId = getFieldValue("categoryId");
-              const onChange = (value) => setFieldsValue({ categoryId: value });
-              return (
-                <TreeSelect
-                  showSearch
-                  style={{ width: "100%" }}
-                  value={categoryId}
-                  dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
-                  placeholder="Chọn danh mục"
-                  allowClear
-                  onChange={onChange}
-                  dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
-                  treeData={categoriesCbo}
-                />
-              );
-            }}
+            <TreeSelect
+              showSearch
+              style={{ width: "100%" }}
+              dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
+              placeholder="Chọn danh mục"
+              allowClear
+              dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
+              treeData={categoriesCbo}
+            />
           </Form.Item>
           <Form.Item
             label="Danh sách câu hỏi"
@@ -275,7 +317,7 @@ const NewQuizz = () => {
             }}
           </Form.Item>
           <Form.Item {...tailLayout}>
-            <Button htmlType="submit" type="primary">
+            <Button htmlType="submit" type="primary" loading={isLoading}>
               Lưu
             </Button>
             <Button

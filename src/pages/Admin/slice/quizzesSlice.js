@@ -4,6 +4,8 @@ import {
   deleteQuizzes as deleteQuizzesApi,
 } from "../api/quizzes";
 import { SUCCESS_CODE } from "../../../constants";
+import { quizAPI } from "../api";
+import { toast } from "react-toastify";
 
 const initialState = {
   exercises: [],
@@ -30,13 +32,30 @@ export const getAllQuizzes = () => async (dispatch, getState) => {
   } catch (error) {}
 };
 
-export const deleteQuizzes = (data, resolve, reject) => async (dispatch, getState) => {
-  try {
-    const res = await deleteQuizzesApi(data);
-    if (res.code === SUCCESS_CODE) {
-      dispatch(getAllQuizzes());
+export const deleteQuizzes =
+  (data, resolve, reject) => async (dispatch, getState) => {
+    try {
+      const res = await deleteQuizzesApi(data);
+      if (res.code === SUCCESS_CODE) {
+        dispatch(getAllQuizzes());
+      }
+    } catch (error) {}
+  };
+export const createQuiz =
+  (data, resolve, reject) => async (dispatch, getState) => {
+    try {
+      const res = await quizAPI.createQuiz(data);
+      if (res.code === SUCCESS_CODE) {
+        dispatch(getAllQuizzes());
+      } else {
+        toast.error(res.message);
+        reject?.();
+      }
+      resolve?.();
+    } catch (error) {
+      toast.error(error.message);
+      reject?.();
     }
-  } catch (error) {}
-};
+  };
 
 export default quizzesSlice.reducer;
