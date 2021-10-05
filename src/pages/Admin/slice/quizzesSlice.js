@@ -38,8 +38,15 @@ export const deleteQuizzes =
       const res = await deleteQuizzesApi(data);
       if (res.code === SUCCESS_CODE) {
         dispatch(getAllQuizzes());
+        resolve();
       }
-    } catch (error) {}
+      else 
+      {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 export const createQuiz =
   (data, resolve, reject) => async (dispatch, getState) => {
