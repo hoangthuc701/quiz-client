@@ -32,7 +32,7 @@ const routes = [
       requireLogin: false,
    },
    {
-      path: "/user/exam-paper/:id",
+      path: "/user/exam/:id",
       exact: true,
       main: () => <Exam />,
       requireLogin: false,

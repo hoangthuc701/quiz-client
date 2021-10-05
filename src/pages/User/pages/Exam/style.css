@@ -97,6 +97,19 @@ ul {
    align-items: center;
 }
 
+.info__tag-list {
+   display: flex;
+   align-items: center;
+}
+
+.info__tag-list li {
+   margin-right: 5px;
+}
+
+.info__tag-list li:last-child span {
+   display: none;
+}
+
 .info__tag ul {
    margin-bottom: 0;
 }
@@ -129,6 +142,10 @@ ul {
 .answer-item span {
    font-size: 13px;
    color: #777;
+}
+
+.answer-item.correct span {
+   color: #52c41a;
 }
 
 .comment-list {

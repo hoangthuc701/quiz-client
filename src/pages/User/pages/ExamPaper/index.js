@@ -114,7 +114,7 @@ const ExamPaper = () => {
                   <ul className="exam-list">
                      {allExam.map((exam) => (
                         <li className="exam-item">
-                           <Link to={`/user/exam-paper/${exam.id}`}>
+                           <Link to={`/user/exam/${exam.id}`}>
                               <Card className="card">
                                  <div className="card__header">
                                     <p className="card__name">{exam.title}</p>
