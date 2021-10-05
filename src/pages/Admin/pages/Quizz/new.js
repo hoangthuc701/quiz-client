@@ -89,7 +89,6 @@ const AddQuestionModal = ({ visible, onCancel }) => {
 const NewQuizz = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-  console.log(form.getFieldInstance());
   const [visible, setVisible] = useState(false);
   const categories = useSelector((state) => state.category.categories);
   const tags = useSelector((state) => state.tag.tags);
@@ -136,7 +135,7 @@ const NewQuizz = () => {
           }
         }}
       >
-        <Form {...layout} name="mainForm" onFinish={onFinish}>
+        <Form {...layout} name="mainForm" onFinish={onFinish} initialValues={{tagIdList1:[]}}>
           <Form.Item
             name="title"
             label="Tên đề thi"
@@ -163,19 +162,14 @@ const NewQuizz = () => {
             shouldUpdate={(prevValues, curValues) =>
               prevValues.tagIdList !== curValues.tagIdList
             }
+            name="tagIdList1"
             rules={[{ required: true }]}
           >
-            {({ getFieldValue, setFieldsValue }) => {
-              const tagIdList = getFieldValue("tagIdList");
-              const onChange = (value) => setFieldsValue({ tagIdList: value });
-              return (
-                <Select
+            <Select
                   mode="multiple"
                   allowClear
                   style={{ width: "100%" }}
                   placeholder="Chọn nhãn"
-                  onChange={onChange}
-                  value={tagIdList}
                 >
                   {tags?.map((tag) => {
                     return (
@@ -183,33 +177,24 @@ const NewQuizz = () => {
                     );
                   })}
                 </Select>
-              );
-            }}
           </Form.Item>
           <Form.Item
             label="Danh mục"
+            name="categoryId"
             shouldUpdate={(prevValues, curValues) =>
               prevValues.categoryId !== curValues.categoryId
             }
             rules={[{ required: true }]}
           >
-            {({ getFieldValue, setFieldsValue }) => {
-              const categoryId = getFieldValue("categoryId");
-              const onChange = (value) => setFieldsValue({ categoryId: value });
-              return (
-                <TreeSelect
+            <TreeSelect
                   showSearch
                   style={{ width: "100%" }}
-                  value={categoryId}
                   dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
                   placeholder="Chọn danh mục"
                   allowClear
-                  onChange={onChange}
                   dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
                   treeData={categoriesCbo}
                 />
-              );
-            }}
           </Form.Item>
           <Form.Item
             label="Danh sách câu hỏi"
