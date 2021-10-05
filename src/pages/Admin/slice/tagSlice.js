@@ -5,26 +5,26 @@ import { SUCCESS_CODE } from "../../../constants";
 import { tagAPI } from "../api";
 
 const initialState = {
-  categories: [],
+  tags: [],
 };
 
 const tagSlice = createSlice({
   name: "tagSlice",
   initialState,
   reducers: {
-    setCategories: (state, { payload: { categories } }) => ({
-      categories,
+    setTags: (state, { payload: { categories: tags } }) => ({
+      tags,
     }),
   },
 });
 
-export const { setCategories } = tagSlice.actions;
+export const { setTags } = tagSlice.actions;
 
 export const getAllTag = () => async (dispatch, getState) => {
   try {
     const res = await tagAPI.getAllTag();
     if (res.code === SUCCESS_CODE) {
-      dispatch(setCategories(res.data));
+      dispatch(setTags(res.data));
     }
   } catch (error) {}
 };
