@@ -14,10 +14,9 @@ export const updateTag = async (data) => {
   return result;
 };
 
-export const deleteTag = async (data) => {
-  const path = `/tags/${data.id}`;
-  delete data.id;
-  const result = await apiCaller("PUT", path, JSON.stringify(data));
+export const deleteTag = async ({ id, ...data }) => {
+  const path = `/tags/${id}`;
+  const result = await apiCaller("PUT", path, JSON.stringify({...data,active:false}));
 
   return result;
 };
