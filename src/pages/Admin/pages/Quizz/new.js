@@ -30,6 +30,7 @@ const validateMessages = {
   required: "${label} không thể để trống",
   types: {
     number: "${label} phải là số!",
+    integer: "${label} không hợp lệ!",
   },
   number: {
     range: "${label} có giá trị từ ${min} đến ${max}",
@@ -95,13 +96,15 @@ const AddQuestionModal = ({ visible, onCancel }) => {
           rules={[
             {
               required: true,
-              type: "number",
-              min: 1,
-              max: 4,
             },
           ]}
+          initialValue={1}
         >
-          <InputNumber style={{ width: "100%" }} />
+          <Select style={{ width: "100%" }} placeholder="Chọn đáp án đúng">
+            {[1, 2, 3, 4]?.map((answer) => {
+              return <Select.Option key={answer}>{answer}</Select.Option>;
+            })}
+          </Select>
         </Form.Item>
       </Form>
     </Modal>

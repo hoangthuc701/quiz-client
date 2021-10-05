@@ -49,7 +49,7 @@ export const updateTag =
   };
 
 export const deleteTag =
-  (data, resolve, reject = () => null) =>
+  (data, resolve = () => null, reject = () => null) =>
   async (dispatch, getState) => {
     try {
       const res = await tagAPI.deleteTag(data);
