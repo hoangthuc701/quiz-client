@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   getAllQuizzes as getAllQuizzesApi,
   deleteQuizzes as deleteQuizzesApi,
+  getQuiz as getQuizApi,
 } from "../api/quizzes";
 import { SUCCESS_CODE } from "../../../constants";
 import { quizAPI } from "../api";
@@ -16,12 +17,17 @@ const quizzesSlice = createSlice({
   initialState,
   reducers: {
     setQuizzes: (state, { payload: { exercises } }) => ({
+      ...state,
       exercises,
+    }),
+    setQuiz: (state, { payload: { exercise } }) => ({
+      ...state,
+      exercise,
     }),
   },
 });
 
-export const { setQuizzes } = quizzesSlice.actions;
+export const { setQuizzes, setQuiz } = quizzesSlice.actions;
 
 export const getAllQuizzes = () => async (dispatch, getState) => {
   try {
@@ -39,9 +45,7 @@ export const deleteQuizzes =
       if (res.code === SUCCESS_CODE) {
         dispatch(getAllQuizzes());
         resolve();
-      }
-      else 
-      {
+      } else {
         toast.error(res.data.message);
       }
     } catch (error) {
@@ -54,6 +58,23 @@ export const createQuiz =
       const res = await quizAPI.createQuiz(data);
       if (res.code === SUCCESS_CODE) {
         dispatch(getAllQuizzes());
+      } else {
+        toast.error(res.message);
+        reject?.();
+      }
+      resolve?.();
+    } catch (error) {
+      toast.error(error.message);
+      reject?.();
+    }
+  };
+
+export const getQuiz =
+  (data, resolve, reject) => async (dispatch, getState) => {
+    try {
+      const res = await getQuizApi(data);
+      if (res.code === SUCCESS_CODE) {
+        dispatch(setQuiz(res.data));
       } else {
         toast.error(res.message);
         reject?.();

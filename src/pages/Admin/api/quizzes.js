@@ -19,3 +19,10 @@ export const createQuiz = async (data) => {
   const result = await apiCaller("POST", path, JSON.stringify(data));
   return result;
 };
+
+export const getQuiz = async(data) => {
+  const path = `/exercises/${data.id}`;
+  delete data.id;
+  const result = await apiCaller("GET", path, {});
+  return result;
+}
