@@ -44,8 +44,18 @@ const ViewQuizz = () => {
             <span>{question.answer4}</span>
           </li>
           <li className="answer-item">
-            <strong> Thứ tự đáp án đúng: </strong>
-            <span>{question.correctAnswer}</span>
+            <strong> Đáp án đúng: </strong>
+            <span>
+              {question.correctAnswer === 1
+                ? question.answer1
+                : question.correctAnswer === 2
+                ? question.answer2
+                : question.correctAnswer === 3
+                ? question.answer3
+                : question.correctAnswer === 4
+                ? question.answer4
+                : ""}
+            </span>
           </li>
         </ul>
       </li>
