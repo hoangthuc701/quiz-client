@@ -120,7 +120,7 @@ const Tag = () => {
     },
   ];
 
-  const data = useSelector((state) => state.tag.categories);
+  const data = useSelector((state) => state.tag.tags);
 
   return (
     <>
