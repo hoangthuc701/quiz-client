@@ -52,6 +52,7 @@ export const deleteQuizzes =
       toast.error(error.message);
     }
   };
+
 export const createQuiz =
   (data, resolve, reject) => async (dispatch, getState) => {
     try {
@@ -80,6 +81,22 @@ export const getQuiz =
         reject?.();
       }
       resolve?.();
+    } catch (error) {
+      toast.error(error.message);
+      reject?.();
+    }
+  };
+
+export const updateQuiz =
+  (data, resolve, reject) => async (dispatch, getState) => {
+    try {
+      const res = await quizAPI.updateQuiz(data);
+      if (res.code === SUCCESS_CODE) {
+        resolve?.();
+      } else {
+        toast.error(res.message);
+        reject?.();
+      }
     } catch (error) {
       toast.error(error.message);
       reject?.();
