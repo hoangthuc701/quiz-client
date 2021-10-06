@@ -1,0 +1,158 @@
+ul {
+    padding: 0;
+    margin: 0;
+ }
+ 
+ .admin-exam {
+    padding: 24px;
+ }
+ 
+ .exam__right-box {
+    position: sticky;
+    top: 70px;
+ }
+ 
+ .exam__note {
+    font-size: 13px;
+    color: #777;
+ }
+ 
+ .exam__note strong {
+    font-style: italic;
+    font-size: 13px;
+    color: #777;
+ }
+ 
+ .exam__user {
+    display: flex;
+    font-size: 16px;
+ }
+ 
+ .exam__user p {
+    display: flex;
+    margin-bottom: 0;
+ }
+ 
+ .exam__user strong {
+    margin-left: 10px;
+ }
+ 
+ .exam__time-value {
+    font-size: 40px;
+    color: #777;
+    text-align: center;
+    margin-bottom: 0;
+ }
+ 
+ .exam-container {
+    background-color: #fff;
+    border-radius: 3px;
+    padding: 20px;
+ }
+ 
+ .exam__name {
+    font-size: 24px;
+ }
+ 
+ .exam__des {
+    font-size: 13px;
+    color: #777;
+ }
+ 
+ .exam__info {
+    display: flex;
+    font-size: 12px;
+ }
+ 
+ .exam__info p {
+    margin-right: 10px;
+ }
+ 
+ .exam__core {
+    font-size: 16px;
+ }
+ 
+ .info__time {
+    color: #52c41a;
+ }
+ 
+ .info__question {
+    color: #faad14;
+ }
+ 
+ .info__tag {
+    color: #1890ff;
+    display: flex;
+    align-items: center;
+ }
+ 
+ .info__tag-list {
+    display: flex;
+    align-items: center;
+ }
+ 
+ .info__tag-list li {
+    margin-right: 5px;
+ }
+ 
+ .info__tag-list li:hover {
+    text-decoration: underline;
+ }
+ 
+ .info__tag-list li:last-child span {
+    display: none;
+ }
+ 
+ .info__tag ul {
+    margin-bottom: 0;
+ }
+ 
+ .question-item {
+    margin-bottom: 40px;
+ }
+ 
+ .question__title {
+    margin-bottom: 5px;
+    font-size: 15px;
+ }
+ 
+ .question__des {
+    font-size: 13px;
+    color: #777;
+ }
+ 
+ .answer-list {
+    padding-left: 20px;
+ }
+ 
+ .answer-item {
+    margin-bottom: 10px;
+ }
+ 
+ .answer-item span {
+    font-size: 13px;
+    color: #777;
+ }
+ 
+ .answer-item.correct span {
+    color: #52c41a;
+ }
+ 
+ .comment-list {
+    padding-left: 20px;
+    margin-bottom: 30px;
+ }
+ 
+ .comment__title {
+    font-size: 16px;
+ }
+ 
+ .comment__name {
+    margin-right: 10px;
+ }
+ 
+ .comment__content {
+    font-size: 13px;
+    color: #777;
+ }
+ 

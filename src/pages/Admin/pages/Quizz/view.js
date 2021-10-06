@@ -8,6 +8,7 @@ import {
   QuestionCircleOutlined,
   ArrowLeftOutlined,
 } from "@ant-design/icons";
+import "./style.css";
 
 const ViewQuizz = () => {
   const dispatch = useDispatch();
@@ -102,7 +103,7 @@ const ViewQuizz = () => {
         </div>
       </div>
 
-      <div className="exam" style={{ textAlign: "start" }}>
+      <div className="admin-exam" style={{ textAlign: "start" }}>
         <div className="exam-container">
           <p className="exam__name">{exercise?.title}</p>
           <p className="exam__des">{exercise?.description}</p>
