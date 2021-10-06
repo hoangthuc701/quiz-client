@@ -12,7 +12,7 @@ const Header = () => {
             <div className="nav navbar-nav navbar-left">
                <div className="navbar-header">
                   <Link className="navbar-brand" to="/">
-                     KQuiz
+                     Quiz
                   </Link>
                </div>
                <ul className="nav navbar-nav">

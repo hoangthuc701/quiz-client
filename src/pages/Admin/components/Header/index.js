@@ -12,7 +12,7 @@ const HeaderComponent = () => {
             <div className="nav navbar-nav navbar-left">
                <div className="navbar-header">
                   <Link className="navbar-brand" to="/">
-                     KQuiz
+                     Quiz
                   </Link>
                </div>
             </div>
