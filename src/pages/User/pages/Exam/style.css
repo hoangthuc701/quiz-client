@@ -106,6 +106,10 @@ ul {
    margin-right: 5px;
 }
 
+.info__tag-list li:hover {
+   text-decoration: underline;
+}
+
 .info__tag-list li:last-child span {
    display: none;
 }

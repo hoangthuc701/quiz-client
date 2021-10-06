@@ -9,7 +9,7 @@ import {
    CheckOutlined,
 } from "@ant-design/icons";
 import { Divider, Button, Input, Radio, Form } from "antd";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { getById } from "../../apis/exercises";
 import { getAllByExercise } from "../../apis/comment";
 import "./style.css";
@@ -97,7 +97,9 @@ const Exam = () => {
                            <ul className="info__tag-list">
                               {exam.tags.map((tag) => (
                                  <li key={tag.id}>
-                                    {tag.title}
+                                    <Link to={`/user/exam-paper/tag/${tag.id}`}>
+                                       {tag.title}
+                                    </Link>
                                     <span>,</span>
                                  </li>
                               ))}
@@ -118,7 +120,10 @@ const Exam = () => {
                            >
                               <ul className="question-list">
                                  {exam.questions.map((question) => (
-                                    <li className="question-item">
+                                    <li
+                                       className="question-item"
+                                       key={question.id}
+                                    >
                                        <p className="question__title">
                                           Câu {question.no}:
                                        </p>
@@ -229,7 +234,7 @@ const Exam = () => {
                            </p>
                            <ul className="comment-list">
                               {comments.map((comment) => (
-                                 <li className="comment-item">
+                                 <li className="comment-item" key={comment.id}>
                                     <p>
                                        <span className="comment__name">
                                           {comment.user.name}:

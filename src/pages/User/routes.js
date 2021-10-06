@@ -32,10 +32,22 @@ const routes = [
       requireLogin: false,
    },
    {
+      path: "/user/exam-paper/category/:categoryId",
+      exact: true,
+      main: () => <ExamPaper />,
+      requireLogin: false,
+   },
+   {
+      path: "/user/exam-paper/tag/:tagId",
+      exact: true,
+      main: () => <ExamPaper />,
+      requireLogin: false,
+   },
+   {
       path: "/user/exam/:id",
       exact: true,
       main: () => <Exam />,
-      requireLogin: false,
+      requireLogin: true,
    },
    {
       path: "/user/logout",
