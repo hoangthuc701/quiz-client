@@ -1,7 +1,7 @@
-import apiCaller from "../../../api-config/apiCaller";
+// import apiCaller from "../../../api-config/apiCaller";
 
 export const getAllExercises = async () => {
-   const path = "/exercises";
+   // const path = "/exercises";
    //   const result = await apiCaller("POST", path, JSON.stringify(data), null);
    const result = new Promise((resolve) => {
       resolve({
@@ -112,10 +112,10 @@ export const getAllExercises = async () => {
 };
 
 export const getAllByCategory = async ({ categoryId }) => {
-   const path = "/exercises";
-   const data = {
-      categoryId,
-   };
+   // const path = "/exercises";
+   // const data = {
+   //    categoryId,
+   // };
    //   const result = await apiCaller("POST", path, JSON.stringify(data), null);
    const result = new Promise((resolve) => {
       resolve({
@@ -175,10 +175,10 @@ export const getAllByCategory = async ({ categoryId }) => {
 };
 
 export const getAllByTag = async ({ tagId }) => {
-   const path = "/exercises";
-   const data = {
-      tagId,
-   };
+   // const path = "/exercises";
+   // const data = {
+   //    tagId,
+   // };
    //   const result = await apiCaller("POST", path, JSON.stringify(data), null);
    const result = new Promise((resolve) => {
       resolve({
@@ -289,10 +289,10 @@ export const getAllByTag = async ({ tagId }) => {
 };
 
 export const getById = async (id) => {
-   const path = "/exercises";
-   const data = {
-      id,
-   };
+   // const path = "/exercises";
+   // const data = {
+   //    id,
+   // };
    //   const result = await apiCaller("POST", path, JSON.stringify(data), null);
    const result = new Promise((resolve) => {
       resolve({

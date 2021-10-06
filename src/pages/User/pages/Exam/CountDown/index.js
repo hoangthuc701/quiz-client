@@ -27,12 +27,12 @@ function CountDown(props) {
       if (isTimeOut) {
          callBack();
       }
-   }, [isTimeOut]);
+   }, [isTimeOut, callBack]);
 
    return (
       <div className={timeValue < 60 ? "red" : ""}>
          <span>
-            {Math.floor(timeValue / 60) != 0
+            {Math.floor(timeValue / 60) !== 0
                ? Math.floor(timeValue / 60)
                : "00"}
          </span>

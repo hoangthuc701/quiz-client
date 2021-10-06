@@ -69,7 +69,7 @@ const Exam = () => {
          });
       };
       fetchExam();
-   }, []);
+   }, [id]);
 
    return (
       <div>

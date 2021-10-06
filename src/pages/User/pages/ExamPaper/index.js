@@ -65,53 +65,56 @@ const ExamPaper = () => {
       }
    };
 
-   const fetchSider = async () => {
-      if (!categoryId && !tagId) {
-         Promise.all([getAllCategory(), getAllTag(), getAllExercises()]).then(
-            (values) => {
+   useEffect(() => {
+      const fetchSider = async () => {
+         if (!categoryId && !tagId) {
+            Promise.all([
+               getAllCategory(),
+               getAllTag(),
+               getAllExercises(),
+            ]).then((values) => {
                setAllCategory(values[0].data.categories);
                setAllTag(values[1].data.categories);
                setAllExam(values[2].data.exercises);
                setTitle(`Tất cả`);
                setKey(`all`);
-            }
-         );
-      } else if (categoryId) {
-         Promise.all([
-            getAllCategory(),
-            getAllTag(),
-            getAllByCategory(categoryId),
-         ]).then((values) => {
-            setAllCategory(values[0].data.categories);
-            setAllTag(values[1].data.categories);
-            setAllExam(values[2].data.exercises);
-            const currentCategory = values[0].data.categories.find(
-               (category) => category.id == categoryId
-            );
-            setTitle(`Thể loại: ${currentCategory.title}`);
-            setKey(`category/${categoryId}`);
-            setOpenKeys([`category`]);
-         });
-      } else if (tagId) {
-         Promise.all([getAllCategory(), getAllTag(), getAllByTag(tagId)]).then(
-            (values) => {
+            });
+         } else if (categoryId) {
+            Promise.all([
+               getAllCategory(),
+               getAllTag(),
+               getAllByCategory(categoryId),
+            ]).then((values) => {
+               setAllCategory(values[0].data.categories);
+               setAllTag(values[1].data.categories);
+               setAllExam(values[2].data.exercises);
+               const currentCategory = values[0].data.categories.find(
+                  (category) => category.id === parseInt(categoryId)
+               );
+               setTitle(`Thể loại: ${currentCategory.title}`);
+               setKey(`category/${categoryId}`);
+               setOpenKeys([`category`]);
+            });
+         } else if (tagId) {
+            Promise.all([
+               getAllCategory(),
+               getAllTag(),
+               getAllByTag(tagId),
+            ]).then((values) => {
                setAllCategory(values[0].data.categories);
                setAllTag(values[1].data.categories);
                setAllExam(values[2].data.exercises);
                const currentTag = values[1].data.categories.find(
-                  (tag) => tag.id == tagId
+                  (tag) => tag.id === parseInt(tagId)
                );
                setTitle(`Thẻ: ${currentTag.title}`);
                setKey(`tag/${tagId}`);
                setOpenKeys([`tag`]);
-            }
-         );
-      }
-   };
-
-   useEffect(() => {
+            });
+         }
+      };
       fetchSider();
-   }, []);
+   }, [categoryId, tagId]);
 
    return (
       <Layout>

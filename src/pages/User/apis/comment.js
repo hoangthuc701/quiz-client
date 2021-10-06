@@ -1,10 +1,10 @@
-import apiCaller from "../../../api-config/apiCaller";
+// import apiCaller from "../../../api-config/apiCaller";
 
 export const getAllByExercise = async (idExercise) => {
-   const path = "/comments";
-   const data = {
-      idExercise,
-   };
+   // const path = "/comments";
+   // const data = {
+   //    idExercise,
+   // };
    //   const result = await apiCaller("POST", path, JSON.stringify(data), null);
    const result = new Promise((resolve) => {
       resolve({

@@ -1,7 +1,7 @@
-import apiCaller from "../../../api-config/apiCaller";
+// import apiCaller from "../../../api-config/apiCaller";
 
 export const getAllCategory = async () => {
-   const path = "/categories";
+   // const path = "/categories";
    //   const result = await apiCaller("POST", path, JSON.stringify(data), null);
    const result = new Promise((resolve) => {
       resolve({
