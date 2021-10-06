@@ -26,3 +26,10 @@ export const getQuiz = async(data) => {
   const result = await apiCaller("GET", path, {});
   return result;
 }
+
+export const updateQuiz = async (data) => {
+  const path = `/exercises/${data.id}`;
+  delete data.id;
+  const result = await apiCaller("PUT", path, JSON.stringify(data));
+  return result;
+};
