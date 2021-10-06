@@ -9,7 +9,7 @@ const Quizzes = () => {
 
   useEffect(() => {
     dispatch(getAllQuizzes());
-  }, []);
+  }, [dispatch]);
 
   const handleDelete = (record) => {
     let data = { id: record.id, active: false };

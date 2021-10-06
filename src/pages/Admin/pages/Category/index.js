@@ -40,7 +40,7 @@ const Category = () => {
 
   useEffect(() => {
     dispatch(getAllCategory());
-  }, []);
+  }, [dispatch]);
 
   const handleCancel = () => {
     setModalData({
@@ -72,6 +72,7 @@ const Category = () => {
 
   useEffect(() => {
     form.setFieldsValue(modalData.body);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalData.body]);
 
   const handleDelete = (record) => {

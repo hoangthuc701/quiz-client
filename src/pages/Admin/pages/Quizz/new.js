@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import {
   Form,
@@ -17,7 +18,6 @@ import { getAllCategory } from "../../slice/categorySlice";
 import { useHistory } from "react-router-dom";
 
 const { TextArea } = Input;
-const { TreeNode } = TreeSelect;
 
 const layout = {
   labelCol: { span: 8 },
@@ -27,12 +27,16 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 const validateMessages = {
+  // eslint-disable-next-line no-template-curly-in-string
   required: "${label} không thể để trống",
   types: {
+    // eslint-disable-next-line no-template-curly-in-string
     number: "${label} phải là số!",
+    // eslint-disable-next-line no-template-curly-in-string
     integer: "${label} không hợp lệ!",
   },
   number: {
+    // eslint-disable-next-line no-template-curly-in-string
     range: "${label} có giá trị từ ${min} đến ${max}",
   },
 };
@@ -48,6 +52,7 @@ const useResetFormOnCloseModal = ({ form, visible }) => {
     if (!visible && prevVisible) {
       form.resetFields();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 };
 
@@ -114,7 +119,6 @@ const NewQuizz = () => {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
   const categories = useSelector((state) => state.category.categories);
   const tags = useSelector((state) => state.tag.tags);
@@ -159,7 +163,7 @@ const NewQuizz = () => {
   useEffect(() => {
     dispatch(getAllCategory());
     dispatch(tagActions.getAllTag());
-  }, []);
+  }, [dispatch]);
   const categoriesCbo = useMemo(() =>
     categories?.map((cat) => ({
       title: cat.title,
@@ -252,7 +256,6 @@ const NewQuizz = () => {
               dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
               placeholder="Chọn danh mục"
               allowClear
-              dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
               treeData={categoriesCbo}
             />
           </Form.Item>

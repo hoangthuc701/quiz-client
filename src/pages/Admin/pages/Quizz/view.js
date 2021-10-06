@@ -17,7 +17,8 @@ const ViewQuizz = () => {
   useEffect(() => {
     const data = { id };
     dispatch(getQuiz(data));
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   const exercise = useSelector((state) => state.quizzes.exercise);
 

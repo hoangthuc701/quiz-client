@@ -39,7 +39,7 @@ const Tag = () => {
 
   useEffect(() => {
     dispatch(tagActions.getAllTag());
-  }, []);
+  }, [dispatch]);
 
   const handleCancel = () => {
     setModalData({
@@ -71,6 +71,7 @@ const Tag = () => {
 
   useEffect(() => {
     form.setFieldsValue(modalData.body);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalData.body]);
 
   const handleDelete = (record) => {

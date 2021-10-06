@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect, Switch, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Layout, Menu, Divider, Pagination } from "antd";
 import {
    TagOutlined,
