@@ -11,7 +11,7 @@ import {
   TreeSelect,
   Select,
 } from "antd";
-import { SmileOutlined, DeleteOutlined } from "@ant-design/icons";
+import { SmileOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { quizActions, tagActions } from "../../slice";
 import { getAllCategory } from "../../slice/categorySlice";
@@ -52,11 +52,11 @@ const useResetFormOnCloseModal = ({ form, visible }) => {
     if (!visible && prevVisible) {
       form.resetFields();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 };
 
-const AddQuestionModal = ({ visible, onCancel }) => {
+const AddQuestionModal = ({ visible, onCancel, data }) => {
   const [form] = Form.useForm();
 
   useResetFormOnCloseModal({
@@ -67,6 +67,11 @@ const AddQuestionModal = ({ visible, onCancel }) => {
   const onOk = () => {
     form.submit();
   };
+  useEffect(() => {
+    if (data) {
+      form.setFieldsValue(data);
+    }
+  }, [data]);
 
   return (
     <Modal
@@ -122,7 +127,11 @@ const NewQuizz = () => {
   const [visible, setVisible] = useState(false);
   const categories = useSelector((state) => state.category.categories);
   const tags = useSelector((state) => state.tag.tags);
-  const showUserModal = () => {
+  const [modalData, setModalData] = useState(null);
+  const showUserModal = (item) => {
+    if (item) {
+      setModalData(item);
+    }
     setVisible(true);
   };
 
@@ -185,9 +194,19 @@ const NewQuizz = () => {
 
           if (name === "questionForm") {
             const questionList = mainForm.getFieldValue("questionList") || [];
-            mainForm.setFieldsValue({
-              questionList: [...questionList, values],
-            });
+            const index = modalData?.itemIndex ?? -1;
+            if (index !== -1) {
+              questionList[index] = values;
+              mainForm.setFieldsValue({
+                questionList: [...questionList],
+              });
+            } else {
+              mainForm.setFieldsValue({
+                questionList: [...questionList, values],
+              });
+            }
+
+            setModalData(null);
             setVisible(false);
           }
           if (name === "mainForm") {
@@ -306,12 +325,20 @@ const NewQuizz = () => {
                           />
                         }
                       />
-                      <Button
-                        type="danger"
-                        shape="circle"
-                        icon={<DeleteOutlined />}
-                        onClick={() => onChange(itemIndex)}
-                      ></Button>
+                      <div>
+                        <Button
+                          type="primary"
+                          shape="circle"
+                          icon={<EditOutlined />}
+                          onClick={() => showUserModal({ ...item, itemIndex })}
+                        />
+                        <Button
+                          type="danger"
+                          shape="circle"
+                          icon={<DeleteOutlined />}
+                          onClick={() => onChange(itemIndex)}
+                        ></Button>
+                      </div>
                     </List.Item>
                   )}
                 />
@@ -336,7 +363,11 @@ const NewQuizz = () => {
           </Form.Item>
         </Form>
 
-        <AddQuestionModal visible={visible} onCancel={hideUserModal} />
+        <AddQuestionModal
+          visible={visible}
+          onCancel={hideUserModal}
+          data={modalData}
+        />
       </Form.Provider>
     </>
   );
