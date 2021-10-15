@@ -167,7 +167,7 @@ const ExamPaper = () => {
                </SubMenu>
             </Menu>
          </Sider>
-         <Content>
+         <Content style={{ display: "flex", flexDirection: "column" }}>
             <div className="exam-paper">
                <div className="exam-paper-content">
                   <h1 className="exam-paper__category">{title}</h1>

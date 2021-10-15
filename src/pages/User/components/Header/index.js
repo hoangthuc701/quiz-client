@@ -23,7 +23,7 @@ const Header = () => {
                      <Link to="/user/exam-paper">Đề thi</Link>
                   </li>
                   <li>
-                     <Link to="#">Kết quả thi</Link>
+                     <Link to="/user/exam-history">Kết quả thi</Link>
                   </li>
                </ul>
             </div>
