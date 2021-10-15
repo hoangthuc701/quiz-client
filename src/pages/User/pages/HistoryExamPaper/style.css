@@ -1,0 +1,35 @@
+.history-exampaper {
+   padding: 20px;
+   min-height: 100vh;
+   flex: 1;
+   display: flex;
+   flex-direction: column;
+}
+
+.history-exampaper .content {
+   position: relative;
+   height: 100%;
+   padding: 24px;
+   background: #fff;
+   flex: 1;
+}
+
+.history-exampaper .title {
+   text-align: left;
+}
+
+.history-exampaper .exam-list {
+   margin-right: -20px;
+}
+
+.history-exampaper .ant-card-body {
+   padding: 10px;
+}
+
+.history-exampaper .pagination {
+   text-align: center;
+   position: absolute;
+   bottom: 30px;
+   left: 50%;
+   transform: translateX(-50%);
+}

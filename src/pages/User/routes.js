@@ -5,6 +5,8 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import ExamPaper from "./pages/ExamPaper";
 import Exam from "./pages/Exam";
+import HistoryExamPaper from "./pages/HistoryExamPaper";
+import HistoryExam from "./pages/HistoryExam";
 
 const routes = [
    {
@@ -29,6 +31,18 @@ const routes = [
       path: "/user/exam-paper",
       exact: true,
       main: () => <ExamPaper />,
+      requireLogin: false,
+   },
+   {
+      path: "/user/exam-history",
+      exact: true,
+      main: () => <HistoryExamPaper />,
+      requireLogin: false,
+   },
+   {
+      path: "/user/exam-history/:id",
+      exact: true,
+      main: () => <HistoryExam />,
       requireLogin: false,
    },
    {
