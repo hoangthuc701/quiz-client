@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Form, Input, Button } from "antd";
 import { signIn } from "../../slice/userAuthSlice";
@@ -59,6 +59,11 @@ const Login = () => {
                >
                   <Input.Password />
                </Form.Item>
+               <div>
+                  <Link style={{ float: "right", paddingTop:'15px', paddingBottom:'15px' }} to="/user/forgot-password">
+                     Quên mật khẩu
+                  </Link>
+               </div>
                <div className="submit">
                   <Button type="primary" htmlType="submit">
                      Đăng nhập
