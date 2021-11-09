@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { signIn as signInApi, signUp as signUpApi } from "../apis/userAuth";
+import {
+  signIn as signInApi,
+  signUp as signUpApi,
+  forgotPassword as forgotPasswordApi,
+  resetPassword as resetPasswordApi
+} from "../apis/userAuth";
 import { SUCCESS_CODE } from "../../../constants";
 import { toast } from "react-toastify";
 
@@ -55,8 +60,7 @@ export const signIn =
         dispatch(setAuth({ ...res.data }));
         saveSessionStorage(getState().userAuth);
         resolve();
-      }
-      else {
+      } else {
         toast.error(res.data.message);
         reject();
       }
@@ -65,27 +69,59 @@ export const signIn =
     }
   };
 
-export const signUp = (signUpData, resolve, reject) => async (dispatch, getState) => {
-  try {
-    const res = await signUpApi(signUpData);
-    if (res.code === SUCCESS_CODE) {
-      toast.success(res.data.message);
-      resolve();
-    } else {
-      toast.error(res.message);
-      reject();
+export const signUp =
+  (signUpData, resolve, reject) => async (dispatch, getState) => {
+    try {
+      const res = await signUpApi(signUpData);
+      if (res.code === SUCCESS_CODE) {
+        toast.success(res.data.message);
+        resolve();
+      } else {
+        toast.error(res.message);
+        reject();
+      }
+    } catch (error) {
+      toast.error(error.message);
     }
-  } catch (error) {
-    toast.error(error.message);
-  }
-};
+  };
+
+export const forgotPassword =
+  (data, resolve, reject) => async (dispatch, getState) => {
+    try {
+      const res = await forgotPasswordApi(data);
+      if (res.code === SUCCESS_CODE) {
+        toast.success(res.data.message);
+        resolve();
+      } else {
+        toast.error(res.message);
+        reject();
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  export const resetPassword =
+  (data, resolve, reject) => async (dispatch, getState) => {
+    try {
+      const res = await resetPasswordApi(data);
+      if (res.code === SUCCESS_CODE) {
+        toast.success(res.data.message);
+        resolve();
+      } else {
+        toast.error(res.data.message);
+        reject();
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
 export const getSessionStorage = () => {
   try {
     const userAuth = JSON.parse(sessionStorage.getItem("userAuth"));
     return userAuth;
-  } catch (error) {
-  }
+  } catch (error) {}
 };
 
 export default userAuthSlice.reducer;

@@ -28,3 +28,29 @@ export const signUp = async ({
   const result = await apiCaller("POST", path, JSON.stringify(data));
   return result;
 };
+
+export const forgotPassword = async ({
+  email
+}) => {
+  const path = "/users/forget-password";
+  const data = {
+    email,
+  };
+  const result = await apiCaller("POST", path, JSON.stringify(data));
+  return result;
+};
+
+export const resetPassword = async ({
+  token,
+  password,
+  confirmPassword
+}) => {
+  const path = "/users/reset-password";
+  const data = {
+    token,
+    password,
+    confirmPassword,
+  };
+  const result = await apiCaller("POST", path, JSON.stringify(data));
+  return result;
+};

@@ -7,6 +7,8 @@ import ExamPaper from "./pages/ExamPaper";
 import Exam from "./pages/Exam";
 import HistoryExamPaper from "./pages/HistoryExamPaper";
 import HistoryExam from "./pages/HistoryExam";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 const routes = [
    {
@@ -75,6 +77,18 @@ const routes = [
       main: () => <Profile />,
       requireLogin: true,
    },
+   {
+      path: "/user/forgot-password",
+      exact: true,
+      requireLogin: false,
+      main: ()=> <ForgotPassword />
+   },
+   {
+      path: "/user/reset-password",
+      exact: true,
+      requireLogin: false,
+      main: ()=> <ResetPassword />
+   }
 ];
 
 export default routes;
