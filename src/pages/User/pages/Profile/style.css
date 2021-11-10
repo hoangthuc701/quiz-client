@@ -1,0 +1,24 @@
+.profile-container{
+    padding-top: 10px;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.avatar-information {
+    display: flex;
+    justify-content: space-between;
+}
+
+.avatar-information .username {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.user-avatar {
+    width: 25%;
+}
+
+.user-information{
+    width: 75%;
+}
+

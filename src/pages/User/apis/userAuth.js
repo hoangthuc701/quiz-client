@@ -54,3 +54,31 @@ export const resetPassword = async ({
   const result = await apiCaller("POST", path, JSON.stringify(data));
   return result;
 };
+
+export const updatePassword = async ({
+  oldPassword,
+  password,
+  confirmPassword
+}) => {
+  const path = "/users/update-password";
+  const data = {
+    oldPassword,
+    password,
+    confirmPassword,
+  };
+  const result = await apiCaller("POST", path, JSON.stringify(data));
+  return result;
+};
+
+export const updateUserInformation = async ({
+  fullname,
+  phone,
+}) => {
+  const path = "/users/update-information";
+  const data = {
+    fullname,
+    phone,
+  };
+  const result = await apiCaller("POST", path, JSON.stringify(data));
+  return result;
+};

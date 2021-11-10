@@ -3,7 +3,9 @@ import {
   signIn as signInApi,
   signUp as signUpApi,
   forgotPassword as forgotPasswordApi,
-  resetPassword as resetPasswordApi
+  resetPassword as resetPasswordApi,
+  updatePassword as updatePasswordApi,
+  updateUserInformation as updateUserInformationApi,
 } from "../apis/userAuth";
 import { SUCCESS_CODE } from "../../../constants";
 import { toast } from "react-toastify";
@@ -101,10 +103,42 @@ export const forgotPassword =
     }
   };
 
-  export const resetPassword =
+export const resetPassword =
   (data, resolve, reject) => async (dispatch, getState) => {
     try {
       const res = await resetPasswordApi(data);
+      if (res.code === SUCCESS_CODE) {
+        toast.success(res.data.message);
+        resolve();
+      } else {
+        toast.error(res.data.message);
+        reject();
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+export const updatePassword =
+  (data, resolve, reject) => async (dispatch, getState) => {
+    try {
+      const res = await updatePasswordApi(data);
+      if (res.code === SUCCESS_CODE) {
+        toast.success(res.data.message);
+        resolve();
+      } else {
+        toast.error(res.data.message);
+        reject();
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+export const updateUserInformation =
+  (data, resolve, reject) => async (dispatch, getState) => {
+    try {
+      const res = await updateUserInformationApi(data);
       if (res.code === SUCCESS_CODE) {
         toast.success(res.data.message);
         resolve();
