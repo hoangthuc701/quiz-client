@@ -6,6 +6,7 @@ import {
   resetPassword as resetPasswordApi,
   updatePassword as updatePasswordApi,
   updateUserInformation as updateUserInformationApi,
+  getUserInformation as getUserInformationApi
 } from "../apis/userAuth";
 import { SUCCESS_CODE } from "../../../constants";
 import { toast } from "react-toastify";
@@ -33,10 +34,17 @@ const userAuthSlice = createSlice({
       ...state,
       accessToken,
     }),
+    setFullname: (state, {payload: { newFullname}}) => ({
+      ...state,
+      user:{
+        ...state.user,
+        fullname: newFullname
+      }
+    }),
   },
 });
 
-export const { setAuth, clearAuth, setToken } = userAuthSlice.actions;
+export const { setAuth, clearAuth, setToken, setFullname } = userAuthSlice.actions;
 
 const saveSessionStorage = ({ accessToken, user }) => {
   sessionStorage.setItem("userAuth", JSON.stringify({ accessToken, user }));
@@ -141,6 +149,9 @@ export const updateUserInformation =
       const res = await updateUserInformationApi(data);
       if (res.code === SUCCESS_CODE) {
         toast.success(res.data.message);
+        dispatch(setFullname({
+          newFullname: data.fullname
+        }))
         resolve();
       } else {
         toast.error(res.data.message);
@@ -150,6 +161,22 @@ export const updateUserInformation =
       toast.error(error.message);
     }
   };
+
+  export const getUserInformation =
+  (resolve, reject) => async (dispatch, getState) => {
+    try {
+      const res = await getUserInformationApi();
+      if (res.code === SUCCESS_CODE) {
+        resolve(res.data);
+      } else {
+        toast.error(res.data.message);
+        reject();
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
 
 export const getSessionStorage = () => {
   try {
