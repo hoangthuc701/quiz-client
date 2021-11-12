@@ -12,12 +12,12 @@ const Header = () => {
             <div className="nav navbar-nav navbar-left">
                <div className="navbar-header">
                   <Link className="navbar-brand" to="/">
-                     Quiz
+                     KQuiz
                   </Link>
                </div>
                <ul className="nav navbar-nav">
                   <li className="active">
-                     <Link to="#">Trang chủ</Link>
+                     <Link to="/user">Trang chủ</Link>
                   </li>
                   <li>
                      <Link to="/user/exam-paper">Đề thi</Link>
