@@ -7,6 +7,8 @@ import ViewQuizz from "./pages/Quizz/view";
 import EditQuizz from "./pages/Quizz/edit";
 import Tag from "./pages/Tag";
 import NewQuizz from "./pages/Quizz/new";
+import UserManagement from "./pages/User";
+import UserView from "./pages/User/view";
 
 const routes = [
   {
@@ -53,6 +55,16 @@ const routes = [
     path: "/admin/tag",
     exact: true,
     main: () => <Tag />,
+  },
+  {
+    path: "/admin/user",
+    exact: true,
+    main: () => <UserManagement />,
+  },
+  {
+    path: "/admin/user/:userId",
+    exact: true,
+    main: () => <UserView />,
   },
 ];
 
