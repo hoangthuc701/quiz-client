@@ -78,6 +78,9 @@ const Profile = () => {
                 ...user,
                 avatarUrl: data.secure_url,
               });
+              let userAuth = JSON.parse(sessionStorage.getItem("userAuth"));
+              userAuth.user.avatarUrl = data.secure_url;
+              sessionStorage.setItem("userAuth", JSON.stringify(userAuth));
             },
             () => {}
           )
@@ -97,7 +100,6 @@ const Profile = () => {
         data,
         () => {
           let userAuth = JSON.parse(sessionStorage.getItem("userAuth"));
-          userAuth.user.avatarUrl = data.avatarUrl;
           userAuth.user.description = data.description;
           userAuth.user.fullname = data.fullname;
           userAuth.user.phone = data.phone;
@@ -193,7 +195,7 @@ const Profile = () => {
                 className="form-item"
                 label="Mô tả"
                 name="description"
-                rules={[{ required: true, message: "Vui lòng nhập họ tên!" }]}
+                rules={[{ required: true, message: "Vui lòng nhập mô tả!" }]}
               >
                 <Input.TextArea />
               </Form.Item>
