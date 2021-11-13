@@ -2,13 +2,15 @@ import React, { useEffect } from "react";
 import { getQuiz, deleteQuizzes } from "../../slice/quizzesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory, Link } from "react-router-dom";
-import { Divider, Tag, Button, Popconfirm } from "antd";
+import { Divider, Tag, Button, Popconfirm, Comment, List } from "antd";
 import {
   ClockCircleOutlined,
   QuestionCircleOutlined,
   ArrowLeftOutlined,
 } from "@ant-design/icons";
 import "./style.css";
+import Avatar from "antd/lib/avatar/avatar";
+import { UserOutlined } from "@ant-design/icons";
 
 const ViewQuizz = () => {
   const dispatch = useDispatch();
@@ -18,7 +20,7 @@ const ViewQuizz = () => {
   useEffect(() => {
     const data = { id };
     dispatch(getQuiz(data));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   const exercise = useSelector((state) => state.quizzes.exercise);
@@ -131,6 +133,37 @@ const ViewQuizz = () => {
             {exercise?.questions?.map((question) => renderQuestion(question))}
           </ul>
           <Divider />
+          <List
+            style={{
+              maxHeight: 200,
+              overflow: "auto",
+            }}
+            header={
+              <div className="question__title">
+                {`Danh sách phản hồi: ${exercise?.feedbacks?.length || 0} phản
+                  hồi`}
+              </div>
+            }
+            itemLayout="horizontal"
+            dataSource={exercise?.feedbacks}
+            renderItem={(item) => {
+              return (
+                <li>
+                  <Comment
+                    author={item.createdUser?.fullname}
+                    avatar={
+                      <Avatar
+                        icon={<UserOutlined />}
+                        src={item?.createdUser?.avatarUrl}
+                        alt={item?.createdUser?.fullname}
+                      />
+                    }
+                    content={item.content}
+                  />
+                </li>
+              );
+            }}
+          />
         </div>
       </div>
     </>
