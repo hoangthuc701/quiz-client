@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Select } from "antd";
 import { signUp } from "../../slice/userAuthSlice";
 import "./style.css";
 
@@ -15,6 +15,7 @@ const Register = () => {
       password: values.password,
       fullname: values.fullname,
       confirmPassword: values.confirmPassword,
+      role: values.role,
     };
     dispatch(
       signUp(
@@ -35,7 +36,7 @@ const Register = () => {
           name="basic"
           labelCol={{ span: 24 }}
           wrapperCol={{ span: 24 }}
-          initialValues={{ remember: true }}
+          initialValues={{ remember: true, role: 2 }}
           onFinish={onFinish}
           autoComplete="off"
         >
@@ -89,6 +90,21 @@ const Register = () => {
             ]}
           >
             <Input />
+          </Form.Item>
+          <Form.Item
+            className="form-item"
+            label="Vai trò"
+            name="role"
+            defaultValue={1}
+          >
+            <Select showSearch placeholder="chọn vai trò">
+              {[
+                { label: "Học sinh", value: 2 },
+                { label: "Giáo viên", value: 1 },
+              ].map((op) => (
+                <Select.Option value={op.value}>{op.label}</Select.Option>
+              ))}
+            </Select>
           </Form.Item>
 
           <div className="submit">

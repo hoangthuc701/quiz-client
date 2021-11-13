@@ -16,6 +16,7 @@ export const signUp = async ({
   password,
   fullname,
   confirmPassword,
+  role,
 }) => {
   const path = "/users/register";
   const data = {
@@ -24,14 +25,13 @@ export const signUp = async ({
     fullname,
     phone,
     confirmPassword,
+    role,
   };
   const result = await apiCaller("POST", path, JSON.stringify(data));
   return result;
 };
 
-export const forgotPassword = async ({
-  email
-}) => {
+export const forgotPassword = async ({ email }) => {
   const path = "/users/forget-password";
   const data = {
     email,
@@ -40,11 +40,7 @@ export const forgotPassword = async ({
   return result;
 };
 
-export const resetPassword = async ({
-  token,
-  password,
-  confirmPassword
-}) => {
+export const resetPassword = async ({ token, password, confirmPassword }) => {
   const path = "/users/reset-password";
   const data = {
     token,
@@ -58,7 +54,7 @@ export const resetPassword = async ({
 export const updatePassword = async ({
   oldPassword,
   password,
-  confirmPassword
+  confirmPassword,
 }) => {
   const path = "/users/update-password";
   const data = {
@@ -74,14 +70,14 @@ export const updateUserInformation = async ({
   fullname,
   phone,
   avatarUrl,
-  description
+  description,
 }) => {
   const path = "/users/update-own-info";
   const data = {
     fullname,
     phone,
     avatarUrl,
-    description
+    description,
   };
   const result = await apiCaller("PUT", path, JSON.stringify(data));
   return result;
