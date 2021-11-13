@@ -18,56 +18,32 @@ import {
    getAllByTag,
    getAllByCategory,
 } from "../../apis/exercises";
+import Loading from "../Loading";
 
 const ExamPaper = () => {
-   const { categoryId, tagId } = useParams();
-   const { Content, Sider } = Layout;
    const { SubMenu } = Menu;
+   const { Content, Sider } = Layout;
+   const { categoryId, tagId } = useParams();
    const [allCategory, setAllCategory] = useState([]);
    const [allTag, setAllTag] = useState([]);
    const [allExam, setAllExam] = useState([]);
-   const [title, setTitle] = useState("Tất cả");
-   const [key, setKey] = useState("all");
+   const [title, setTitle] = useState(
+      categoryId ? "Thể loại" : tagId ? "Thẻ" : "Tất cả"
+   );
+   const [key, setKey] = useState(
+      categoryId ? "category" : tagId ? "tag" : "all"
+   );
 
-   const rootSubmenuKeys = ["category", "tag"];
-
-   const [openKeys, setOpenKeys] = useState([""]);
-
-   const onOpenChange = (keys) => {
-      const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
-      if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-         setOpenKeys(keys);
-      } else {
-         setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
-      }
-   };
-
-   const handleItemClick = (type, name, id) => {
-      if (type === "all") {
-         getAllExercises().then((res) => {
-            setAllExam(res.data.exercises);
-            setTitle(`Tất cả`);
-            setKey(`all`);
-            setOpenKeys([``]);
-         });
-      } else if (type === "category") {
-         getAllByCategory(id).then((res) => {
-            setAllExam(res.data.exercises);
-            setTitle(`Thể loại: ${name}`);
-            setKey(`category/${id}`);
-         });
-      } else if (type === "tag") {
-         getAllByTag(id).then((res) => {
-            setAllExam(res.data.exercises);
-            setTitle(`Thẻ: ${name}`);
-            setKey(`tag/${id}`);
-         });
-      }
-   };
+   const [openKeys, setOpenKeys] = useState(
+      categoryId ? ["category"] : tagId ? ["tag"] : [""]
+   );
+   const [isLoading, setIsLoading] = useState(true);
 
    useEffect(() => {
       const fetchSider = async () => {
+         setIsLoading(true);
          if (!categoryId && !tagId) {
+            setKey(`all`);
             Promise.all([
                getAllCategory(),
                getAllTag(),
@@ -77,9 +53,11 @@ const ExamPaper = () => {
                setAllTag(values[1].data.categories);
                setAllExam(values[2].data.exercises);
                setTitle(`Tất cả`);
-               setKey(`all`);
+               setIsLoading(false);
             });
          } else if (categoryId) {
+            setKey(`category/${categoryId}`);
+            setOpenKeys([`category`]);
             Promise.all([
                getAllCategory(),
                getAllTag(),
@@ -92,10 +70,11 @@ const ExamPaper = () => {
                   (category) => category.id === parseInt(categoryId)
                );
                setTitle(`Thể loại: ${currentCategory.title}`);
-               setKey(`category/${categoryId}`);
-               setOpenKeys([`category`]);
+               setIsLoading(false);
             });
          } else if (tagId) {
+            setKey(`tag/${tagId}`);
+            setOpenKeys([`tag`]);
             Promise.all([
                getAllCategory(),
                getAllTag(),
@@ -108,8 +87,7 @@ const ExamPaper = () => {
                   (tag) => tag.id === parseInt(tagId)
                );
                setTitle(`Thẻ: ${currentTag.title}`);
-               setKey(`tag/${tagId}`);
-               setOpenKeys([`tag`]);
+               setIsLoading(false);
             });
          }
       };
@@ -122,29 +100,16 @@ const ExamPaper = () => {
             <Menu
                style={{ minHeight: "100%", paddingTop: "30px" }}
                selectedKeys={[key]}
-               onOpenChange={onOpenChange}
-               openKeys={openKeys}
+               defaultSelectedKeys={[key]}
+               defaultOpenKeys={openKeys}
                mode="inline"
             >
-               <Menu.Item
-                  icon={<UnorderedListOutlined />}
-                  key="all"
-                  onClick={() => handleItemClick("all")}
-               >
-                  Tất cả
+               <Menu.Item icon={<UnorderedListOutlined />} key="all">
+                  <Link to={`/user/exam-paper/`}>Tất cả</Link>
                </Menu.Item>
                <SubMenu key="category" icon={<TagsOutlined />} title="Loại đề">
-                  {allCategory.map((category) => (
-                     <Menu.Item
-                        key={`category/${category.id}`}
-                        onClick={() =>
-                           handleItemClick(
-                              "category",
-                              category.title,
-                              category.id
-                           )
-                        }
-                     >
+                  {allCategory.map((category, i) => (
+                     <Menu.Item key={`category/${category.id}`}>
                         <Link to={`/user/exam-paper/category/${category.id}`}>
                            {category.title}{" "}
                         </Link>
@@ -153,12 +118,7 @@ const ExamPaper = () => {
                </SubMenu>
                <SubMenu key="tag" icon={<TagOutlined />} title="Thẻ">
                   {allTag.map((tag) => (
-                     <Menu.Item
-                        key={`tag/${tag.id}`}
-                        onClick={() =>
-                           handleItemClick("tag", tag.title, tag.id)
-                        }
-                     >
+                     <Menu.Item key={`tag/${tag.id}`}>
                         <Link to={`/user/exam-paper/tag/${tag.id}`}>
                            {tag.title}
                         </Link>
@@ -172,43 +132,50 @@ const ExamPaper = () => {
                <div className="exam-paper-content">
                   <h1 className="exam-paper__category">{title}</h1>
                   <Divider />
-                  <ul className="exam-list">
-                     {allExam.map((exam) => (
-                        <li className="exam-item" key={exam.id}>
-                           <Link to={`/user/exam/${exam.id}`}>
-                              <Card className="card">
-                                 <div className="card__header">
-                                    <p className="card__name">{exam.title}</p>
-                                    <p className="card__view">
-                                       <EyeOutlined
-                                          style={{ marginRight: "5px" }}
-                                       />
-                                       Xem chi tiết
-                                    </p>
-                                 </div>
-                                 <Divider />
-                                 <div className="card__footer">
-                                    <p className="card__time">
-                                       <ClockCircleOutlined
-                                          style={{ marginRight: "5px" }}
-                                       />
-                                       {exam.duration} Phút
-                                    </p>
-                                    <p className="card__question">
+                  {isLoading ? (
+                     <Loading />
+                  ) : (
+                     <ul className="exam-list">
+                        {allExam.map((exam) => (
+                           <li className="exam-item" key={exam.id}>
+                              <Link to={`/user/exam/${exam.id}`}>
+                                 <Card className="card">
+                                    <div className="card__header">
+                                       <p className="card__name">
+                                          {exam.title}
+                                       </p>
+                                       <p className="card__view">
+                                          <EyeOutlined
+                                             style={{ marginRight: "5px" }}
+                                          />
+                                          Xem chi tiết
+                                       </p>
+                                    </div>
+                                    <Divider />
+                                    <div className="card__footer">
+                                       <p className="card__time">
+                                          <ClockCircleOutlined
+                                             style={{ marginRight: "5px" }}
+                                          />
+                                          {exam.duration} Phút
+                                       </p>
+                                       {/* <p className="card__question">
                                        <QuestionCircleOutlined
                                           style={{ marginRight: "5px" }}
                                        />
                                        {exam.questions.length} Câu
-                                    </p>
-                                 </div>
-                              </Card>
-                           </Link>
-                        </li>
-                     ))}
-                  </ul>
-                  <div className="pagination">
+                                    </p> */}
+                                    </div>
+                                 </Card>
+                              </Link>
+                           </li>
+                        ))}
+                     </ul>
+                  )}
+
+                  {/* <div className="pagination">
                      <Pagination defaultCurrent={1} total={50} />
-                  </div>
+                  </div> */}
                </div>
             </div>
          </Content>

@@ -7,30 +7,45 @@ import {
    CommentOutlined,
    SendOutlined,
    CheckOutlined,
+   LoadingOutlined,
 } from "@ant-design/icons";
-import { Divider, Button, Input, Radio, Form } from "antd";
+import { Divider, Button, Input, Radio, Form, message, Modal } from "antd";
 import { useParams, Link } from "react-router-dom";
 import { getById } from "../../apis/exercises";
-import { getAllByExercise } from "../../apis/comment";
+import { getAllByExercise, addComment } from "../../apis/comment";
+import { startSubmit, submit } from "../../apis/submission";
+import { addFeedBack } from "../../apis/feedback";
+import { useSelector } from "react-redux";
 import "./style.css";
 import CountDown from "./CountDown";
+import Loading from "../Loading";
 
 const Exam = () => {
+   const [commentForm] = Form.useForm();
+   const [formFeedBack] = Form.useForm();
    const { id } = useParams();
-   const { Search } = Input;
-
    const submitRef = useRef(null);
    const [isLoading, setIsLoading] = useState(true);
    const [exam, setExam] = useState({});
-   const [correctAnswers, setCorrectAnswers] = useState([]);
+   const [questions, setQuestions] = useState([]);
+   const [correctAnswer, setCorrectAnswer] = useState(0);
    const [comments, setComment] = useState([]);
    const [isDoing, setIsDoing] = useState(false);
    const [isDone, setIsDone] = useState(false);
    const [isTiming, setIsTiming] = useState(false);
+   const [isModalFeedBack, setIsModalFeedBack] = useState(false);
+   const [isFeedBack, setIsFeedBack] = useState(false);
+   const [submissionId, setSubmissionId] = useState(0);
+   const user = useSelector((state) => state.userAuth.user);
 
-   const handleDoingClick = () => {
-      setIsDoing(true);
-      setIsTiming(true);
+   const handleDoingClick = async () => {
+      const res = await startSubmit({ exerciseId: id });
+      console.log(res);
+      if (res.code === 1000) {
+         setSubmissionId(res.data.submissionId);
+         setIsDoing(true);
+         setIsTiming(true);
+      }
    };
    const handleDoneClick = () => {
       setIsDone(true);
@@ -38,22 +53,56 @@ const Exam = () => {
       submitRef.current.click();
    };
 
-   const onComment = (value) => {
-      console.log(value);
-   };
-
-   const onFeedBack = (value) => {
-      console.log(value);
-   };
-
-   const onFinish = (values) => {
-      console.log(values.answer1);
-      const questions = [...exam.questions];
-      const correctAnswers = questions.filter((question) => {
-         const name = `answer${question.no}`;
-         return question.correctAnswer === values[name];
+   const onComment = async (values) => {
+      commentForm.resetFields();
+      const comment = await addComment({
+         exerciseId: id,
+         content: values.comment,
       });
-      setCorrectAnswers(correctAnswers);
+      if (comment.code === 1000) {
+         message.success("Bình luận bài thi thành công");
+         const comments = await getAllByExercise(id);
+         setComment(comments.data.comments);
+      } else {
+         message.error("Bình luận bài thi thất bại");
+      }
+   };
+
+   const onOkFeedBack = () => {
+      formFeedBack.submit();
+   };
+
+   const onFinishFeedBack = async (values) => {
+      const res = await addFeedBack({ submissionId, content: values.feedback });
+      if (res.code === 1000) {
+         message.success("Phản hồi bài thi thành công");
+      } else {
+         message.error("Phản hồi bài thi thất bại");
+      }
+      setIsFeedBack(true);
+      setIsModalFeedBack(false);
+   };
+
+   const onFinish = async (values) => {
+      const answerList = [];
+      for (const value in values) {
+         answerList.push({ questionId: value, answer: values[value] });
+      }
+      const res = await submit({ submissionId, answerList });
+      if (res.code === 1000) {
+         message.success("Nộp bài thi thành công");
+         setCorrectAnswer(res.data.nCorrectAnswer);
+         const questionsResult = questions.map((question, i) => {
+            return {
+               ...question,
+               correctAnswer: res.data.correctAnswerList[i].correctAnswer,
+               userAnswer: res.data.correctAnswerList[i].userAnswer,
+            };
+         });
+         setQuestions(questionsResult);
+      } else {
+         message.error("Nộp bài thi thất bại");
+      }
    };
 
    const onFinishFailed = (errorInfo) => {
@@ -63,7 +112,9 @@ const Exam = () => {
    useEffect(() => {
       const fetchExam = async () => {
          Promise.all([getById(id), getAllByExercise(id)]).then((values) => {
+            console.log(values[0]);
             setExam(values[0].data.exercise);
+            setQuestions(values[0].data.exercise.questions);
             setComment(values[1].data.comments);
             setIsLoading(false);
          });
@@ -73,7 +124,9 @@ const Exam = () => {
 
    return (
       <div>
-         {!isLoading && (
+         {isLoading ? (
+            <Loading />
+         ) : (
             <div className="exam">
                <div className="exam__left">
                   <div className="exam-container">
@@ -90,7 +143,7 @@ const Exam = () => {
                            <QuestionCircleOutlined
                               style={{ marginRight: "5px" }}
                            />
-                           {exam.questions.length} Câu
+                           {questions.length} Câu
                         </p>
                         <p className="info__tag">
                            <TagOutlined style={{ marginRight: "5px" }} />
@@ -119,27 +172,28 @@ const Exam = () => {
                               autoComplete="off"
                            >
                               <ul className="question-list">
-                                 {exam.questions.map((question) => (
+                                 {questions.map((question, i) => (
                                     <li
                                        className="question-item"
                                        key={question.id}
                                     >
                                        <p className="question__title">
-                                          Câu {question.no}:
+                                          Câu {i + 1}:
                                        </p>
                                        <p className="question__des">
                                           {question.content}
                                        </p>
                                        <ul className="answer-list">
-                                          <Form.Item
-                                             name={`answer${question.no}`}
-                                          >
+                                          <Form.Item name={question.id}>
                                              <Radio.Group>
                                                 <li
                                                    className={
                                                       question.correctAnswer ===
                                                          1 && isDone
                                                          ? "answer-item correct"
+                                                         : question.userAnswer ===
+                                                              1 && isDone
+                                                         ? "answer-item wrong"
                                                          : "answer-item"
                                                    }
                                                 >
@@ -157,6 +211,9 @@ const Exam = () => {
                                                       question.correctAnswer ===
                                                          2 && isDone
                                                          ? "answer-item correct"
+                                                         : question.userAnswer ===
+                                                              2 && isDone
+                                                         ? "answer-item wrong"
                                                          : "answer-item"
                                                    }
                                                 >
@@ -174,6 +231,9 @@ const Exam = () => {
                                                       question.correctAnswer ===
                                                          3 && isDone
                                                          ? "answer-item correct"
+                                                         : question.userAnswer ===
+                                                              3 && isDone
+                                                         ? "answer-item wrong"
                                                          : "answer-item"
                                                    }
                                                 >
@@ -191,6 +251,9 @@ const Exam = () => {
                                                       question.correctAnswer ===
                                                          4 && isDone
                                                          ? "answer-item correct"
+                                                         : question.userAnswer ===
+                                                              4 && isDone
+                                                         ? "answer-item wrong"
                                                          : "answer-item"
                                                    }
                                                 >
@@ -237,7 +300,7 @@ const Exam = () => {
                                  <li className="comment-item" key={comment.id}>
                                     <p>
                                        <span className="comment__name">
-                                          {comment.user.name}:
+                                          {comment.user.fullname} :
                                        </span>
                                        <span className="comment__content">
                                           {comment.content}
@@ -246,39 +309,31 @@ const Exam = () => {
                                  </li>
                               ))}
                            </ul>
-                           <Search
-                              placeholder="Nhận xét của bạn..."
-                              allowClear
-                              enterButton={
-                                 <span>
+                           <Form form={commentForm} onFinish={onComment}>
+                              <Form.Item
+                                 name="comment"
+                                 rules={[
+                                    {
+                                       required: true,
+                                       message: "Bình luận không được trống!",
+                                    },
+                                 ]}
+                              >
+                                 <Input
+                                    placeholder="Nhận xét của bạn..."
+                                    style={{ width: "450px" }}
+                                 />
+                              </Form.Item>
+                              <Form.Item>
+                                 <Button type="primary" htmlType="submit">
                                     <EditOutlined
                                        style={{ marginRight: "10px" }}
                                     />
                                     Bình luận
-                                 </span>
-                              }
-                              size="default"
-                              style={{ maxWidth: 500 }}
-                              onSearch={onComment}
-                           />
+                                 </Button>
+                              </Form.Item>
+                           </Form>
                         </div>
-                     )}
-                     {isDone && (
-                        <Search
-                           placeholder="Phản hồi của bạn"
-                           allowClear
-                           enterButton={
-                              <span>
-                                 <SendOutlined
-                                    style={{ marginRight: "10px" }}
-                                 />
-                                 Phản hồi
-                              </span>
-                           }
-                           size="default"
-                           style={{ maxWidth: 500 }}
-                           onSearch={onFeedBack}
-                        />
                      )}
                   </div>
                </div>
@@ -287,7 +342,7 @@ const Exam = () => {
                      <div className="exam-container">
                         <div className="exam__user">
                            <p>Họ và tên: </p>
-                           <strong>Louis Phan</strong>
+                           <strong>{user.fullname}</strong>
                         </div>
                         <Divider />
                         <div className="exam__time">
@@ -306,8 +361,7 @@ const Exam = () => {
                                  <p>
                                     Số câu đúng:
                                     <span>
-                                       {correctAnswers.length}/
-                                       {exam.questions.length}
+                                       {correctAnswer}/{questions.length}
                                     </span>
                                  </p>
                               </div>
@@ -315,14 +369,25 @@ const Exam = () => {
                         )}
                         <Divider />
                         {isDoing ? (
-                           <Button
-                              type="primary"
-                              onClick={() => handleDoneClick()}
-                              disabled={isDone}
-                           >
-                              <CheckOutlined />
-                              Nộp bài thi
-                           </Button>
+                           <div>
+                              <Button
+                                 type="primary"
+                                 onClick={() => handleDoneClick()}
+                                 disabled={isDone}
+                                 style={{ marginRight: "15px" }}
+                              >
+                                 <CheckOutlined />
+                                 Nộp bài thi
+                              </Button>
+                              <Button
+                                 type="primary"
+                                 onClick={() => setIsModalFeedBack(true)}
+                                 disabled={isFeedBack}
+                              >
+                                 <SendOutlined />
+                                 Phản hồi
+                              </Button>
+                           </div>
                         ) : (
                            <Button
                               type="primary"
@@ -343,6 +408,34 @@ const Exam = () => {
                      </div>
                   </div>
                </div>
+               <Modal
+                  title="Phản hồi bài thi"
+                  visible={isModalFeedBack}
+                  onOk={() => onOkFeedBack()}
+                  onCancel={() => setIsModalFeedBack(false)}
+                  okText="Gửi"
+                  cancelText="Hủy"
+               >
+                  <Form
+                     form={formFeedBack}
+                     layout="vertical"
+                     onFinish={onFinishFeedBack}
+                     autoComplete="off"
+                  >
+                     <Form.Item
+                        name="feedback"
+                        rules={[
+                           {
+                              required: true,
+                              message: "Nội dung phản hồi trống!",
+                           },
+                        ]}
+                        style={{ marginBottom: "0px" }}
+                     >
+                        <Input placeholder="Nhập phản hồi" />
+                     </Form.Item>
+                  </Form>
+               </Modal>
             </div>
          )}
       </div>
