@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 
 const SiderComponent = () => {
   const { Sider } = Layout;
-  const { SubMenu } = Menu;
 
   const siders = [
     {
@@ -31,18 +30,6 @@ const SiderComponent = () => {
     {
       key: "5",
       path: "/admin/user"
-    },
-    {
-      key: "3",
-      path: "#",
-    },
-    {
-      key: "4-1",
-      path: "#",
-    },
-    {
-      key: "3-2",
-      path: "#",
     },
   ];
 
@@ -83,12 +70,6 @@ const SiderComponent = () => {
         <Menu.Item key="5" icon={<GroupOutlined />}>
           <Link to="/admin/user"> Người dùng </Link>
         </Menu.Item>
-        <SubMenu key="sub9" icon={<UserOutlined />} title="subnav 9">
-          <Menu.Item key="9-1">option1</Menu.Item>
-          <Menu.Item key="9-2">option2</Menu.Item>
-          <Menu.Item key="9-3">option3</Menu.Item>
-          <Menu.Item key="9-4">option4</Menu.Item>
-        </SubMenu>
       </Menu>
     </Sider>
   );

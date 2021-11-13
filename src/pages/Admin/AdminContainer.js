@@ -34,7 +34,7 @@ const AdminContainer = () => {
             </div>
           </Content>
           <Footer style={{ textAlign: "center" }}>
-            Ant Design ©2021 Created by ....
+           © 2021 Copyright KQuiz 
           </Footer>
         </Layout>
       </Layout>
