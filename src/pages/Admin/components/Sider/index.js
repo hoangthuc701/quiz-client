@@ -3,6 +3,7 @@ import {
   UserOutlined,
   VideoCameraOutlined,
   TagsOutlined,
+  GroupOutlined
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
@@ -26,6 +27,10 @@ const SiderComponent = () => {
     {
       key: "4",
       path: "/admin/quizzes",
+    },
+    {
+      key: "5",
+      path: "/admin/user"
     },
     {
       key: "3",
@@ -74,6 +79,9 @@ const SiderComponent = () => {
         </Menu.Item>
         <Menu.Item key="4" icon={<VideoCameraOutlined />}>
           <Link to="/admin/quizzes"> Đề thi </Link>
+        </Menu.Item>
+        <Menu.Item key="5" icon={<GroupOutlined />}>
+          <Link to="/admin/user"> Người dùng </Link>
         </Menu.Item>
         <SubMenu key="sub9" icon={<UserOutlined />} title="subnav 9">
           <Menu.Item key="9-1">option1</Menu.Item>
