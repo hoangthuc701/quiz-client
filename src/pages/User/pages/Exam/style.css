@@ -152,6 +152,14 @@ ul {
    color: #52c41a;
 }
 
+.answer-item.correct span {
+   color: #52c41a;
+}
+
+.answer-item.wrong span {
+   color: #ff5b5b;
+}
+
 .comment-list {
    padding-left: 20px;
    margin-bottom: 30px;
