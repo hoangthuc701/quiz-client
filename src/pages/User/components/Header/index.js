@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./style.css";
 import { useSelector } from "react-redux";
 import { isAdmin } from "../../../../utils";
+import { Avatar } from "antd";
 
 const Header = () => {
    const user = useSelector((state) => state.userAuth.user);
@@ -46,7 +47,7 @@ const Header = () => {
                {user && (
                   <>
                      <li>
-                        <Link to="/user/profile"> {user.fullname}</Link>
+                        <Link to="/user/profile"> <Avatar src={user.avatarUrl} size={25} shape="circle"/> {user.fullname}</Link>
                      </li>
                      <li>
                         <Link to="/user/logout">Đăng xuất</Link>

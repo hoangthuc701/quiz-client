@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Avatar } from "antd";
 
 const HeaderComponent = () => {
   const user = useSelector((state) => state.userAuth.user);
@@ -20,7 +21,7 @@ const HeaderComponent = () => {
                {user && (
                   <>
                      <li>
-                        <Link to="/user/profile"> {user.fullname}</Link>
+                     <Link to="/user/profile"> <Avatar src={user.avatarUrl} size={25} shape="circle"/> {user.fullname}</Link>
                      </li>
                      <li>
                         <Link to="/user/logout">Đăng xuất</Link>

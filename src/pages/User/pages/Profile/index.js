@@ -42,20 +42,73 @@ const Profile = () => {
     );
   };
 
+  const handleChangeAvatar = (e) => {
+    e.preventDefault();
+    const fileInput = document.getElementById("file-selector");
+    fileInput.click();
+  };
+
+  const handleUploadAvatar = (e) => {
+    const fileInput = document.getElementById("file-selector");
+    const file = fileInput.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "docs_upload_example_us_preset");
+
+    const url = "https://api.cloudinary.com/v1_1/demo/image/upload";
+    fetch(url, {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        const updateData = {
+          fullname: user.fullname,
+          phone: user.phone,
+          description: user.description,
+          avatarUrl: data.secure_url,
+        };
+        dispatch(
+          updateUserInformation(
+            updateData,
+            () => {
+              setUser({
+                ...user,
+                avatarUrl: data.secure_url,
+              });
+            },
+            () => {}
+          )
+        );
+      });
+  };
+
   const onFinish1 = (values) => {
-    const resetData = {
+    const data = {
       fullname: values.fullname,
       phone: values.phone,
-      email: values.email
+      description: values.description,
+      avatarUrl: user.avatarUrl,
     };
     dispatch(
       updateUserInformation(
-        resetData,
+        data,
         () => {
+          let userAuth = JSON.parse(sessionStorage.getItem("userAuth"));
+          userAuth.user.avatarUrl = data.avatarUrl;
+          userAuth.user.description = data.description;
+          userAuth.user.fullname = data.fullname;
+          userAuth.user.phone = data.phone;
+          sessionStorage.setItem("userAuth", JSON.stringify(userAuth));
+          
           setUser({
             ...user,
-            fullname: resetData.fullname
-          })
+            fullname: data.fullname,
+            description: data.description,
+          });
+
         },
         () => {}
       )
@@ -65,15 +118,30 @@ const Profile = () => {
   return (
     <div className="profile-container">
       <div className="avatar-information">
-        <Avatar
-          className="user-avatar"
-          shape="square"
-          size={200}
-          icon={<UserOutlined />}
-        />
+        <div className="user-avatar">
+          <Avatar
+            shape="square"
+            size={200}
+            icon={<UserOutlined />}
+            src={user.avatarUrl}
+          />
+          <Button
+            id="update-avatar-button"
+            type="primary"
+            onClick={handleChangeAvatar}
+          >
+            Cập nhật ảnh đại diện
+          </Button>
+          <input
+            id="file-selector"
+            type="file"
+            style={{ opacity: 0, width: 0, height: 0 }}
+            onChange={handleUploadAvatar}
+          ></input>
+        </div>
         <div className="user-information">
           <div className="username">{user.fullname}</div>
-          <div className="user-description">Fullstack Developer</div>
+          <div className="user-description">{user.description}</div>
         </div>
       </div>
       <div className="tab-information">
@@ -119,6 +187,15 @@ const Profile = () => {
                 ]}
               >
                 <Input />
+              </Form.Item>
+
+              <Form.Item
+                className="form-item"
+                label="Mô tả"
+                name="description"
+                rules={[{ required: true, message: "Vui lòng nhập họ tên!" }]}
+              >
+                <Input.TextArea />
               </Form.Item>
 
               <div className="submit">
