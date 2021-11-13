@@ -73,13 +73,15 @@ export const updatePassword = async ({
 export const updateUserInformation = async ({
   fullname,
   phone,
-  email
+  avatarUrl,
+  description
 }) => {
   const path = "/users/update-own-info";
   const data = {
     fullname,
     phone,
-    email
+    avatarUrl,
+    description
   };
   const result = await apiCaller("PUT", path, JSON.stringify(data));
   return result;

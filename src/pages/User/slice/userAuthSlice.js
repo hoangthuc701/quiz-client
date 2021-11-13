@@ -41,10 +41,17 @@ const userAuthSlice = createSlice({
         fullname: newFullname
       }
     }),
+    setAvatar: (state, {payload: { newAvatarUrl }}) => ({
+      ...state,
+      user:{
+        ...state.user,
+        avatarUrl: newAvatarUrl
+      }
+    }),
   },
 });
 
-export const { setAuth, clearAuth, setToken, setFullname } = userAuthSlice.actions;
+export const { setAuth, clearAuth, setToken, setFullname, setAvatar } = userAuthSlice.actions;
 
 const saveSessionStorage = ({ accessToken, user }) => {
   sessionStorage.setItem("userAuth", JSON.stringify({ accessToken, user }));
@@ -151,7 +158,10 @@ export const updateUserInformation =
         toast.success(res.data.message);
         dispatch(setFullname({
           newFullname: data.fullname
-        }))
+        }));
+        dispatch(setAvatar({
+          newAvatarUrl: data.avatarUrl
+        }));
         resolve();
       } else {
         toast.error(res.data.message);
