@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect, Switch } from "react-router-dom";
 import { Layout } from "antd";
-import AdminRoute from "./components/AdminRoute";
+import DashboardRoute from "./components/AdminRoute";
 import Header from "./components/Header";
 import Sider from "./components/Sider";
 import routes from "./routes";
@@ -22,11 +22,12 @@ const AdminContainer = () => {
             >
               <Switch>
                 {routes.map((r) => (
-                  <AdminRoute
+                  <DashboardRoute
                     key={r.path}
                     path={r.path}
                     component={r.main}
                     exact={r.exact}
+                    role={r.role}
                   />
                 ))}
                 <Redirect from="*" to="/admin/overview" />

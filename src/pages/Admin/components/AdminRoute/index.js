@@ -1,13 +1,31 @@
 import { Route, Redirect } from "react-router-dom";
-import { isAdmin } from "../../../../utils";
+import { isAdmin, isCreator } from "../../../../utils";
 
-function AdminRoute({ component:Component, ...rest }) {
-  const isAmin = isAdmin();
+function DashboardRoute({ component:Component, ...rest }) {
+
+  const checkCanAccess = (role) => {
+    let user;
+    try {
+      user = JSON.parse(sessionStorage.getItem("userAuth"))?.user;
+    }
+    catch{
+      user = {};
+      user.role = 2;
+    }
+    const currentRole = user?.role ;
+    if (role.includes(currentRole)){
+      return true;
+    }
+    return false;
+  }
+
+  const isCanAccessDashboard = isAdmin() || isCreator();
+  const isCanAccessThisSite = checkCanAccess(rest.role);
   return (
     <Route
       {...rest}
       render={({ location }) =>
-      isAmin ? (
+      isCanAccessDashboard && isCanAccessThisSite ? (
           <Component {...rest} />
         ) : (
           <Redirect
@@ -22,4 +40,4 @@ function AdminRoute({ component:Component, ...rest }) {
   );
 }
 
-export default AdminRoute;
+export default DashboardRoute;

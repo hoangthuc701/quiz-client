@@ -3,8 +3,9 @@ import {
   UserOutlined,
   VideoCameraOutlined,
   TagsOutlined,
-  GroupOutlined
+  GroupOutlined,
 } from "@ant-design/icons";
+import { isCreator, isAdmin } from "../../../../utils/index";
 import { Link } from "react-router-dom";
 
 const SiderComponent = () => {
@@ -29,15 +30,18 @@ const SiderComponent = () => {
     },
     {
       key: "5",
-      path: "/admin/user"
+      path: "/admin/user",
     },
   ];
 
   const getDefaultSelectedKey = () => {
     const path = window.location.pathname;
-    const key = siders.find((sider) => path.includes(sider.path)).key;
+    let page = siders.find((sider) => path.includes(sider.path));
+    if (!page) {
+      page = 1;
+    }
 
-    return key;
+    return page.key;
   };
 
   return (
@@ -50,27 +54,44 @@ const SiderComponent = () => {
         top: "48px",
       }}
     >
-      <Menu
-        theme="dark"
-        mode="inline"
-        defaultSelectedKeys={() => getDefaultSelectedKey()}
-      >
-        <Menu.Item key="1" icon={<UserOutlined />}>
-          <Link to="/admin/overview"> Tổng quan </Link>
-        </Menu.Item>
-        <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-          <Link to="/admin/category"> Danh mục </Link>
-        </Menu.Item>
-        <Menu.Item key="3" icon={<TagsOutlined />}>
-          <Link to="/admin/tag"> Tag </Link>
-        </Menu.Item>
-        <Menu.Item key="4" icon={<VideoCameraOutlined />}>
-          <Link to="/admin/quizzes"> Đề thi </Link>
-        </Menu.Item>
-        <Menu.Item key="5" icon={<GroupOutlined />}>
-          <Link to="/admin/user"> Người dùng </Link>
-        </Menu.Item>
-      </Menu>
+      {isAdmin() && (
+        <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={() => getDefaultSelectedKey()}
+        >
+          <Menu.Item key="1" icon={<UserOutlined />}>
+            <Link to="/admin/overview"> Tổng quan </Link>
+          </Menu.Item>
+          <Menu.Item key="2" icon={<VideoCameraOutlined />}>
+            <Link to="/admin/category"> Danh mục </Link>
+          </Menu.Item>
+          <Menu.Item key="3" icon={<TagsOutlined />}>
+            <Link to="/admin/tag"> Tag </Link>
+          </Menu.Item>
+          <Menu.Item key="4" icon={<VideoCameraOutlined />}>
+            <Link to="/admin/quizzes"> Đề thi </Link>
+          </Menu.Item>
+          <Menu.Item key="5" icon={<GroupOutlined />}>
+            <Link to="/admin/user"> Người dùng </Link>
+          </Menu.Item>
+        </Menu>
+      )}
+
+      {isCreator() && (
+        <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={() => getDefaultSelectedKey()}
+        >
+           <Menu.Item key="1" icon={<UserOutlined />}>
+            <Link to="/admin/overview"> Tổng quan </Link>
+          </Menu.Item>
+          <Menu.Item key="4" icon={<VideoCameraOutlined />}>
+            <Link to="/admin/quizzes"> Đề thi </Link>
+          </Menu.Item>
+        </Menu>
+      )}
     </Sider>
   );
 };

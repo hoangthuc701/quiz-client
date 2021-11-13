@@ -1,8 +1,15 @@
 import apiCaller from "../../../api-config/apiCaller";
+import { isCreator } from "../../../utils";
 
 export const getAllQuizzes = async () => {
+  console.log("run");
   const path = "/exercises/search";
-  const result = await apiCaller("POST", path, {});
+  let data = {};
+  if (isCreator()){
+    data.isGetOwned= true;
+  }
+
+  const result = await apiCaller("POST", path, JSON.stringify(data));
   return result;
 };
 
