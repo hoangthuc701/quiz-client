@@ -41,7 +41,7 @@ export const getHistoryById = async (id) => {
   return {
     data: {
       exercise: result.data.submissionList.filter(
-        (i) => i.id === parseInt(13)
+        (i) => i.id === parseInt(id)
       )?.[0],
     },
   };
