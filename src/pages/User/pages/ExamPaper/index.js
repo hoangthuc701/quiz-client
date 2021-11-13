@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Layout, Menu, Divider, Pagination } from "antd";
+import { Layout, Menu, Divider } from "antd";
 import {
    TagOutlined,
    UnorderedListOutlined,
    ClockCircleOutlined,
-   QuestionCircleOutlined,
    EyeOutlined,
    TagsOutlined,
 } from "@ant-design/icons";

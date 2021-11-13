@@ -7,7 +7,6 @@ import {
    CommentOutlined,
    SendOutlined,
    CheckOutlined,
-   LoadingOutlined,
 } from "@ant-design/icons";
 import { Divider, Button, Input, Radio, Form, message, Modal } from "antd";
 import { useParams, Link } from "react-router-dom";
