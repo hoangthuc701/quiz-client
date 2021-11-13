@@ -51,7 +51,12 @@ const Profile = () => {
     dispatch(
       updateUserInformation(
         resetData,
-        () => {},
+        () => {
+          setUser({
+            ...user,
+            fullname: resetData.fullname
+          })
+        },
         () => {}
       )
     );

@@ -87,7 +87,7 @@ export const signUp =
         toast.success(res.data.message);
         resolve();
       } else {
-        toast.error(res.message);
+        toast.error(res.data.message);
         reject();
       }
     } catch (error) {
