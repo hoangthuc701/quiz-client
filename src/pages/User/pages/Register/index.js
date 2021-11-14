@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { Form, Input, Button, Select } from "antd";
 import { signUp } from "../../slice/userAuthSlice";
 import "./style.css";
+import { CREATOR_ROLE_CODE, USER_ROLE_CODE } from "../../../../constants";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ const Register = () => {
           name="basic"
           labelCol={{ span: 24 }}
           wrapperCol={{ span: 24 }}
-          initialValues={{ remember: true, role: 2 }}
+          initialValues={{ remember: true, role: USER_ROLE_CODE }}
           onFinish={onFinish}
           autoComplete="off"
         >
@@ -99,8 +100,8 @@ const Register = () => {
           >
             <Select showSearch placeholder="chọn vai trò">
               {[
-                { label: "Học sinh", value: 2 },
-                { label: "Giáo viên", value: 1 },
+                { label: "Người ra đề", value: CREATOR_ROLE_CODE },
+                { label: "Người dùng thường", value: USER_ROLE_CODE },
               ].map((op) => (
                 <Select.Option value={op.value}>{op.label}</Select.Option>
               ))}
