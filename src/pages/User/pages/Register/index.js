@@ -101,7 +101,7 @@ const Register = () => {
             <Select showSearch placeholder="chọn vai trò">
               {[
                 { label: "Người ra đề", value: CREATOR_ROLE_CODE },
-                { label: "Người dùng thường", value: USER_ROLE_CODE },
+                { label: "Người làm bài", value: USER_ROLE_CODE },
               ].map((op) => (
                 <Select.Option value={op.value}>{op.label}</Select.Option>
               ))}
