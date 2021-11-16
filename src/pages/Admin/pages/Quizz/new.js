@@ -183,6 +183,13 @@ const NewQuizz = () => {
       })),
     }))
   );
+  const tagsCbo = useMemo(() =>
+    tags?.map((tag) => ({
+      label: tag.title,
+      value: tag.id,
+    }))
+  );
+
   return (
     <>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -255,11 +262,8 @@ const NewQuizz = () => {
               allowClear
               style={{ width: "100%" }}
               placeholder="Chọn nhãn"
-            >
-              {tags?.map((tag) => {
-                return <Select.Option key={tag.id}>{tag.title}</Select.Option>;
-              })}
-            </Select>
+              options={tagsCbo}
+            />
           </Form.Item>
           <Form.Item
             label="Danh mục"
