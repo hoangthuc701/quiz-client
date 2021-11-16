@@ -149,7 +149,6 @@ const AddQuestionModal = ({
 
 const EditQuizz = () => {
   const history = useHistory();
-  const [runOne, setRunOne] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
@@ -169,13 +168,8 @@ const EditQuizz = () => {
   };
 
   const onFinish = (values) => {
-    const {
-      categoryId,
-      tagIdList,
-      title,
-      description,
-      duration,
-    } = values || {};
+    const { categoryId, tagIdList, title, description, duration } =
+      values || {};
     setIsLoading(true);
     dispatch(
       quizActions.updateQuiz(
@@ -199,7 +193,7 @@ const EditQuizz = () => {
   };
 
   const examId = useParams().id;
-  let exercise = { ...useSelector((state) => state.quizzes.exercise) };
+  const exercise = useSelector((state) => state.quizzes.exercise || {});
 
   useEffect(() => {
     dispatch(getAllCategory());
@@ -208,14 +202,13 @@ const EditQuizz = () => {
     dispatch(getQuiz(data, () => {}));
   }, []);
 
-  if (runOne && exercise.id) {
-    exercise.categoryId = exercise?.category?.id;
-    exercise.tagIdList = exercise?.tags?.map((tag) => tag.id);
-    exercise.questionList = exercise?.questions;
-    form.setFieldsValue(exercise);
-    setRunOne(false);
-  }
-
+  useEffect(() => {
+    const formData = { ...exercise };
+    formData.categoryId = exercise?.category?.id;
+    formData.tagIdList = exercise?.tags?.map((tag) => tag.id);
+    formData.questionList = exercise?.questions;
+    form.setFieldsValue(formData);
+  }, [exercise]);
   const categoriesCbo = useMemo(() =>
     categories?.map((cat) => ({
       title: cat.title,
@@ -224,6 +217,12 @@ const EditQuizz = () => {
         title: child.title,
         value: child.id,
       })),
+    }))
+  );
+  const tagsCbo = useMemo(() =>
+    tags?.map((tag) => ({
+      label: tag.title,
+      value: tag.id,
     }))
   );
 
@@ -274,7 +273,7 @@ const EditQuizz = () => {
           name="mainForm"
           form={form}
           onFinish={onFinish}
-          initialValues={exercise}
+          initialValues={{ ...exercise }}
           validateMessages={validateMessages}
         >
           <Form.Item
@@ -300,10 +299,10 @@ const EditQuizz = () => {
           </Form.Item>
           <Form.Item
             label="Nhãn"
+            name="tagIdList"
             shouldUpdate={(prevValues, curValues) =>
               prevValues.tagIdList !== curValues.tagIdList
             }
-            name="tagIdList"
             rules={[{ required: true }]}
           >
             <Select
@@ -311,11 +310,8 @@ const EditQuizz = () => {
               allowClear
               style={{ width: "100%" }}
               placeholder="Chọn nhãn"
-            >
-              {tags?.map((tag) => {
-                return <Select.Option key={tag.id}>{tag.title}</Select.Option>;
-              })}
-            </Select>
+              options={tagsCbo}
+            />
           </Form.Item>
           <Form.Item
             label="Danh mục"
